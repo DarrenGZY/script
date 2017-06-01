@@ -1,0 +1,42 @@
+﻿<!-- "script/apps/Aries/Debug/PublishProcess.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="PublishProcess.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+function creatNewWindow()
+    PublishProcess.creatNewWindow();
+end
+]]></script>
+<!--    Step 0:
+    LogoBottomBannerPage.html update version date
+    <br/>
+    Step 1:
+    Sync globalstore.db and extendedcost.db
+    <input type="button" value="SyncGlobalStore" onclick="MyCompany.Aries.Debug.PublishProcess.SyncGlobalStore()"/>
+    <input type="button" value="SyncExtendedCost" onclick="MyCompany.Aries.Debug.PublishProcess.SyncExtendedCost()"/>
+    <br/>
+    Step 3:
+    Sync world directory and homeland
+    <br/>
+    Step 4:
+    Filter item
+    Step 5:
+    <input type="button" value="FetchAllGSItems" onclick="MyCompany.Aries.Debug.PublishProcess.FetchAllGSItems()"/>
+    <input type="button" value="AllQuestAcquireForCYF" onclick="MyCompany.Aries.Debug.PublishProcess.AllQuestAcquireForCYF()"/>
+    <input type="button" value="AllQuestComplete" onclick="MyCompany.Aries.Debug.PublishProcess.AllQuestComplete()"/>-->
+    <div class = "window" style = "width:600;height:400px;">
+        <div class = "window" style = "float:left;margin-left:20px;margin-top:20px;width:270;height:350px;" onclick = "creatNewWindow">
+        </div>
+        <div class = "window" style = "float:left;margin-left:20px;margin-top:20px;width:270;height:350px;">
+        </div>
+    </div>
+</pe:mcml> 
+</body>
+</html>

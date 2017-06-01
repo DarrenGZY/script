@@ -1,0 +1,407 @@
+﻿<!-- "script/apps/Aries/Debug/GlobalStoreCSV2CharactersDB.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="PublishProcess.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+function DoGenerate()
+    
+    local all_items = {};
+    -- read gsid files
+	local file = ParaIO.open("config/Aries/gsid_key_subclass.csv", "r");
+	if(file:IsValid() == true) then
+		-- read a line 
+		local line = file:readline();
+		while(line) do
+			--badwords[line] = true;
+            local gsid, key, subclass, display_gsid, force_style = string.match(line, "^(%d+),([^,]+),(%d+),(%d+),([%-%d]*)$")
+            if(gsid and key and subclass and display_gsid and force_style) then
+                -- male section
+                local original_gsid = gsid;
+                
+                table.insert(all_items, {
+                    gsid = tonumber(gsid) + 30000,
+                    sort_weight = original_gsid * 10 + 1,
+                    assetkey = key,
+                    subclass = tonumber(subclass),
+                    display_gsid = tonumber(display_gsid + 30000),
+                    force_style = tonumber(force_style),
+                });
+                -- female section
+                table.insert(all_items, {
+                    gsid = tonumber(gsid) + 40000,
+                    sort_weight = original_gsid * 10 + 2,
+                    assetkey = key,
+                    subclass = tonumber(subclass),
+                    display_gsid = tonumber(display_gsid + 40000),
+                    force_style = tonumber(force_style),
+                });
+            end
+			line = file:readline();
+		end
+		file:close();
+    else
+        _guihelper.MessageBox("打开数据库出错 请确认文件路径: config/Aries/gsid_key_subclass.csv")
+
+        do return end
+	end
+    
+
+	local databaseFile = "Database/characters.db";
+    
+	local db = sqlite3.open(databaseFile);
+
+    if(not db) then
+        _guihelper.MessageBox("打开数据库出错 请确认文件路径: Database/characters.db")
+
+        do return end
+    end
+    
+    db:exec("DELETE FROM ItemDatabase WHERE id > 30000");
+            
+    db:exec("DELETE FROM ItemDisplayDB WHERE ItemDisplayID > 30000");
+
+    table.sort(all_items, function(a, b)
+		return ((a.sort_weight + a.subclass * 100000) < (b.sort_weight + b.subclass * 100000));
+    end)
+
+local green_item_list = {};
+
+local _, item_struct;
+for _, item_struct in ipairs(all_items) do
+
+    local quality = "unknown";
+    local level = 0;
+    local school = "unknown";
+    local gender = "unknown";
+
+    local gsid = item_struct.gsid;
+    if(gsid > 30000 and gsid < 39999) then
+        item_struct.assetkey = "3"..item_struct.assetkey;
+        gender = "male";
+    elseif(gsid > 40000 and gsid < 49999) then
+        item_struct.assetkey = "4"..item_struct.assetkey;
+        gender = "female";
+    end
+    
+    local button_name = item_struct.assetkey;
+
+    if(string.find(string.lower(item_struct.assetkey), "green")) then
+        quality = "green";
+        button_name = gsid.."绿";
+    elseif(string.find(string.lower(item_struct.assetkey), "blue")) then
+        quality = "blue";
+        button_name = gsid.."蓝";
+    elseif(string.find(string.lower(item_struct.assetkey), "purple")) then
+        quality = "purple";
+        button_name = gsid.."紫";
+    elseif(string.find(string.lower(item_struct.assetkey), "white")) then
+        quality = "white";
+        button_name = gsid.."白";
+    end
+    
+    if(string.find(string.lower(item_struct.assetkey), "fire")) then
+        school = "fire";
+        button_name = button_name.."火";
+    elseif(string.find(string.lower(item_struct.assetkey), "ice")) then
+        school = "ice";
+        button_name = button_name.."冰";
+    elseif(string.find(string.lower(item_struct.assetkey), "storm")) then
+        school = "storm";
+        button_name = button_name.."风";
+    elseif(string.find(string.lower(item_struct.assetkey), "life")) then
+        school = "life";
+        button_name = button_name.."生";
+    elseif(string.find(string.lower(item_struct.assetkey), "death")) then
+        school = "death";
+        button_name = button_name.."死";
+    end
+    
+    if(string.find(string.lower(item_struct.assetkey), "lv10")) then
+        level = 10;
+        button_name = button_name.."10";
+    elseif(string.find(string.lower(item_struct.assetkey), "lv1")) then
+        level = 1;
+        button_name = button_name.."1";
+    elseif(string.find(string.lower(item_struct.assetkey), "lv20")) then
+        level = 20;
+        button_name = button_name.."20";
+    elseif(string.find(string.lower(item_struct.assetkey), "lv30")) then
+        level = 30;
+        button_name = button_name.."30";
+    elseif(string.find(string.lower(item_struct.assetkey), "lv40")) then
+        level = 40;
+        button_name = button_name.."40";
+    elseif(string.find(string.lower(item_struct.assetkey), "lv45")) then
+        level = 45;
+        button_name = button_name.."45";
+    end
+
+    if(quality == "green") then
+        local identity = quality.."_"..school.."_"..level.."_"..gender.."_"..item_struct.subclass;
+        green_item_list[identity] = gsid;
+    end
+
+    item_struct.quality = quality;
+    item_struct.level = level;
+    item_struct.school = school;
+    item_struct.gender = gender;
+    item_struct.button_name = button_name;
+end
+
+local _, item_struct;
+for _, item_struct in ipairs(all_items) do
+
+    local quality = item_struct.quality;
+    local level = item_struct.level;
+    local school = item_struct.school;
+    local gender = item_struct.gender;
+    local button_name = item_struct.button_name;
+    local gsid = item_struct.gsid;
+    local display_gsid = item_struct.display_gsid;
+    
+    if(item_struct.subclass == 11 or item_struct.subclass == 72) then
+        -- right hand
+        if(gsid ~= display_gsid) then
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 21, display_gsid, item_struct.assetkey));
+        else
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 21, gsid, item_struct.assetkey));
+            
+            anim = ".anim";
+
+	        db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'w', %d, %d, 0, 0, 0, 0, 0, 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+			        gsid, item_struct.assetkey..anim..".x", "", item_struct.assetkey..".dds", "", 0, 0, "", "", "", "", "", "", "", ""));
+        end
+        local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickRightHandUpdate" gsid="%d"/>]], button_name, item_struct.assetkey, gsid);
+        log(commonlib.Encoding.Utf8ToDefault(line))
+        log("\n")
+
+    elseif(item_struct.subclass == 10) then
+        -- left hand
+        if(gsid ~= display_gsid) then
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 21, display_gsid, item_struct.assetkey));
+        else
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 21, gsid, item_struct.assetkey));
+            
+            anim = ".anim";
+
+	        db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'w', %d, %d, 0, 0, 0, 0, 0, 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+			        gsid, item_struct.assetkey..anim..".x", "", item_struct.assetkey..".dds", "", 0, 0, "", "", "", "", "", "", "", ""));
+        end
+                
+        local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickLeftHandUpdate" gsid="%d"/>]], button_name, item_struct.assetkey, gsid);
+        log(commonlib.Encoding.Utf8ToDefault(line))
+        log("\n")
+
+    elseif(item_struct.subclass == 2 or item_struct.subclass == 18) then
+        -- hat
+        if(gsid ~= display_gsid) then
+            local gsid = item_struct.gsid;
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 1, display_gsid, item_struct.assetkey));
+        else
+            local gsid = item_struct.gsid;
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 1, gsid, item_struct.assetkey));
+                    
+            -- GeosetVisID1: 0 with ear, 1 without ear
+            local anim = ".anim";
+            local GeosetVisID1 = 0;
+
+            if(gsid >= 5054 and gsid <= 5059) then
+                GeosetVisID1 = 1;
+            end
+
+	        db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'CHat', %d, %d, 0, 0, 0, 0, %d, 0, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+			        gsid, item_struct.assetkey..anim..".x", "", item_struct.assetkey..".dds", "", 0, 0, GeosetVisID1, "", "", "", "", "", "", "", ""));
+        end
+                
+        local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickAvaterUpdate" gsid="%d" slot="0"/>]], button_name, item_struct.assetkey, gsid);
+        log(commonlib.Encoding.Utf8ToDefault(line))
+        log("\n")
+
+    elseif(item_struct.subclass == 5 or item_struct.subclass == 19) then
+        -- suit
+        if(gsid ~= display_gsid) then
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 40, display_gsid, item_struct.assetkey));
+        else
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 40, gsid, item_struct.assetkey));
+    
+            local style = 3;
+            local style_p = -1;
+            
+            if(level == 0) then
+                style = 1;
+            elseif(level == 1) then
+                style = 2;
+            elseif(level == 10) then
+                style = 2;
+            elseif(level == 20) then
+                style = 1;
+            elseif(level == 30) then
+                style = 3;
+            elseif(level == 40) then
+                style = 3;
+            end
+
+            if(item_struct.force_style) then
+                style = item_struct.force_style;
+            end
+
+            if(style) then
+		        db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'CShirt', %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+				        gsid, "", "", item_struct.assetkey.."_CS.dds", "", tonumber(style)-1, 0, 0, -1, tonumber(style_p), 1, -1, -1, "", "", "", "", "", "", "", ""));
+            end
+        end
+
+        local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickAvaterUpdate" gsid="%d" slot="28"/>]], button_name, item_struct.assetkey, gsid);
+        log(commonlib.Encoding.Utf8ToDefault(line))
+        log("\n")
+
+    elseif(item_struct.subclass == 7 or item_struct.subclass == 71) then
+        -- boot
+        if(gsid ~= display_gsid) then
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 31, display_gsid, item_struct.assetkey));
+        else
+	        db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			        gsid, 31, gsid, item_struct.assetkey));
+
+            local style = 3;
+            
+            if(level == 0) then
+                style = 2;
+            elseif(level == 1) then
+                style = 3;
+            elseif(level == 10) then
+                style = 3;
+            elseif(level == 20) then
+                style = 2;
+            elseif(level == 30) then
+                style = 4;
+            elseif(level == 40) then
+                style = 4;
+            end
+            
+            if(item_struct.force_style) then
+                style = item_struct.force_style;
+            end
+
+            if(style) then
+		        db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'CFoot', %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+				        gsid, "", "", item_struct.assetkey.."_CF.dds", "", style-1, 0, 0, -1, 1, 1, -1, -1, "", "", "", "", "", "", "", ""));
+            end
+        end
+
+        local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickAvaterUpdate" gsid="%d" slot="19"/>]], button_name, item_struct.assetkey, gsid);
+        log(commonlib.Encoding.Utf8ToDefault(line))
+        log("\n")
+
+    elseif(item_struct.subclass == 8 or item_struct.subclass == 70) then
+        -- wing
+        if(not item_struct.force_style or item_struct.force_style >= 0) then
+            if(gsid ~= display_gsid) then
+	            db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			            gsid, 33, display_gsid, item_struct.assetkey));
+            else
+	            db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			            gsid, 33, gsid, item_struct.assetkey));
+
+                local style = 1;
+                if(level == 1) then
+                    style = 1;
+                elseif(level == 10) then
+                    style = 1;
+                    style = 2;
+                elseif(level == 20) then
+                    if(gsid > 30000 and gsid < 39999) then
+                        style = 1;
+                    elseif(gsid > 40000 and gsid < 49999) then
+                        style = 2;
+                    end
+                    style = 3;
+                elseif(level == 30) then
+                    if(gsid > 30000 and gsid < 39999) then
+                        style = 2;
+                    elseif(gsid > 40000 and gsid < 49999) then
+                        style = 2;
+                    end
+                    style = 4;
+                elseif(level == 40) then
+                    if(gsid > 30000 and gsid < 39999) then
+                        style = 3;
+                    elseif(gsid > 40000 and gsid < 49999) then
+                        style = 4;
+                    end
+                    style = 5;
+                elseif(level == 45) then
+                    if(gsid > 30000 and gsid < 39999) then
+                        style = 3;
+                    elseif(gsid > 40000 and gsid < 49999) then
+                        style = 4;
+                    end
+                    style = 6;
+                end
+            
+                if(item_struct.force_style) then
+                    style = item_struct.force_style;
+                end
+
+                if(style) then
+		            db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'CWing', %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+				            gsid, "", "", item_struct.assetkey.."_CW.dds", "", style-1, 0, 0, 0, 0, 0, 0, 0, "", "", "", "", "", "", "", ""));
+                end
+            end
+        elseif(item_struct.force_style and item_struct.force_style == -1) then
+            -- -1 stands for wing with x asset
+            if(gsid ~= display_gsid) then
+	            db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			            gsid, 38, display_gsid, item_struct.assetkey));
+            else
+	            db:exec(string.format("INSERT INTO ItemDatabase VALUES (%d, 0, 0, %d, %d, '%s');", 
+			            gsid, 38, gsid, item_struct.assetkey));
+		        db:exec(string.format("INSERT INTO ItemDisplayDB VALUES (%d, '%s', '%s', '%s', '%s', 'CWing', %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 0);", 
+				        gsid, item_struct.assetkey..".anim.x", "", item_struct.assetkey..".dds", "", 0, 0, 0, 0, 0, 0, 0, 0, "", "", "", "", "", "", "", ""));
+            end
+        end
+
+        --local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickAvaterUpdate" gsid="%d" slot="26"/>]], button_name, item_struct.assetkey, gsid);
+        local line = string.format([[<input type="button" value="%s" tooltip="%s" style="width:74px;" onclick="Map3DSystem.App.CCS.AdvCCSModifyTeenPage.ClickAvaterUpdate" gsid="%d" slot="21"/>]], button_name, item_struct.assetkey, gsid);
+        log(commonlib.Encoding.Utf8ToDefault(line))
+        log("\n")
+    end
+    
+    
+end
+
+	-- close database
+	db:close();
+
+    _guihelper.MessageBox("完成!")
+end
+]]></script>
+    流程: <br/>
+    1 config/Aries/目录下放csv文件gsid_key_subclass.csv<br/>
+    2 在taurus状态点击生成<br/>
+    3 > 30000 的内容将会首先删除<br/>
+    4 新的物品全部会添加<br/>
+    5 log中有完整的MCML测试代码<br/>
+    6 把测试代码复制到 script/kids/3DMapSystemUI/CCS/AdvCCSModifyTeenPage.html
+    7 整个过程需要2~3分钟左右的时间 等待场景有响应时完成<br/>
+    <br/>
+    <input type="button" zorder="1" style="width:96px;height:32px;" onclick="DoGenerate()" text="生成" name='Test43342' />
+</pe:mcml> 
+</body>
+</html>

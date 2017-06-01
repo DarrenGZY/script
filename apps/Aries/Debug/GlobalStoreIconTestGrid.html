@@ -1,0 +1,84 @@
+﻿<!-- "script/apps/Aries/Debug/GlobalStoreIconTestGrid.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GlobalStoreIconTestGrid, by Andy, 2011/11/05</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+   local ItemManager = Map3DSystem.Item.ItemManager;
+
+item_list = {};
+
+local i;
+for i = 1001, 39999 do
+    local gsItem = ItemManager.GetGlobalStoreItemInMemory(i);
+	if(gsItem) then
+        table.insert(item_list, {gsid = i, name = gsItem.template.name});
+    end
+end
+
+function DS_Func_Aries_Items(index)
+    if(index == nil) then
+        return #item_list;
+    else
+        return item_list[index];
+    end
+end
+
+function aaa()
+    local content = pageCtrl:GetValue("page_index");
+    if(content) then
+        content = tonumber(content);
+        if(content) then
+            pageCtrl:Refresh();
+        end
+    end
+end
+
+]]></script>
+    流程: <br/>
+    1 在青年版或者儿童版中打开此页<br/>
+    2 此页中是所有实体图标的集合<br/>
+    3 对于青年版中有女性角色的图标 需要人物的男女来决定<br/>
+    <br/>
+    <!--<input type="text" name="page_index" style="width:64px;height:32px;"/>
+    <input type="button" text="跳转" onclick="aaa" style="width:64px;height:32px;"/>-->
+
+    <pe:gridview DataSource="<%=DS_Func_Aries_Items%>" name="ItemView" style="margin-left:12px;margin-top:20px;" 
+        CellPadding="4"  DefaultNodeHeight = "65" ItemsPerLine="10" AllowPaging="True" pagesize="40">
+        <Columns>
+            <div style="margin-left:3px;width:90px;height:110px;background:texture/alphadot.png;font-size:12px;">
+                <div style="margin-left:3px;width:90px;height:40px;">
+                <%=Eval("gsid")%>
+                <%=Eval("name")%>
+                </div>
+                <br/>
+                <pe:item gsid='<%=Eval("gsid")%>' style="margin-left:16px;width:64px;height:64px;"/>
+            </div>
+        </Columns>
+        <EmptyDataTemplate>
+            <b>Empty Items</b>
+        </EmptyDataTemplate>
+        <FetchingDataTemplate>
+            <div style="margin-left:70px;margin-top:30px;">数据加载中，请稍等</div>
+        </FetchingDataTemplate>
+	    <PagerSettings Position="Bottom" height="36" style="margin-left:50px;margin-top:-28px;width:168px;height:32px;" PreviousPageText="previous page" NextPageText="next page"/>
+	    <PagerTemplate>
+	        <form>
+	            <input type="button" name="pre" zorder=2 style="width:42px;height:41px;background:url(Texture/Aries/Inventory/itemview_pageleft_32bits.png#0 0 42 41);"/>
+	            <div style="float:right;margin-top:4px;width:64px;">
+	                <label name="page" style="text-align:center;width:64px;height:18px;margin:4px"/>
+	            </div>
+	            <input type="button" name="next" zorder=2 style="width:42px;height:41px;background:url(Texture/Aries/Inventory/itemview_pageright_32bits.png#0 0 42 41)"/>
+	        </form>
+	    </PagerTemplate>
+    </pe:gridview>
+
+</pe:mcml> 
+</body>
+</html>

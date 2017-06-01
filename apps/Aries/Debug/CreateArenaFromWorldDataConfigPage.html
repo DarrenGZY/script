@@ -1,0 +1,168 @@
+﻿<!-- "script/apps/Aries/Debug/CreateArenaFromWorldDataConfigPage.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+local worlds_config_mapping = {
+	["worlds/MyWorlds/NewUserIsland/"] = "config/Aries/WorldData/NewUserIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/61HaqiTown/"] = "config/Aries/WorldData/61HaqiTown.Arenas_Mobs.xml",
+	["worlds/MyWorlds/61HaqiTown_teen/"] = "config/Aries/WorldData_teen/61HaqiTown_teen.Arenas_Mobs.xml",
+	["worlds/MyWorlds/FlamingPhoenixIsland/"] = "config/Aries/WorldData/FlamingPhoenixIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/FlamingPhoenixIsland_teen/"] = "config/Aries/WorldData_teen/FlamingPhoenixIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/FrostRoarIsland/"] = "config/Aries/WorldData/FrostRoarIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/FrostRoarIsland_teen/"] = "config/Aries/WorldData_teen/FrostRoarIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/AncientEgyptIsland/"] = "config/Aries/WorldData/AncientEgyptIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/AncientEgyptIsland_teen/"] = "config/Aries/WorldData_teen/AncientEgyptIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/DarkForestIsland/"] = "config/Aries/WorldData/DarkForestIsland.Arenas_Mobs.xml",
+	["worlds/MyWorlds/DarkForestIsland_teen/"] = "config/Aries/WorldData_teen/DarkForestIsland.Arenas_Mobs.xml",
+};
+
+function OnClickCreate_kids_NewUserIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/NewUserIsland/"]);
+end
+function OnClickCreate_kids_61HaqiTown()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/61HaqiTown/"]);
+end
+function OnClickCreate_kids_FlamingPhoenixIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/FlamingPhoenixIsland/"]);
+end
+function OnClickCreate_kids_FrostRoarIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/FrostRoarIsland/"]);
+end
+function OnClickCreate_kids_AncientEgyptIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/AncientEgyptIsland/"]);
+end
+
+function OnClickCreate_teen_61HaqiTown()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/61HaqiTown_teen/"]);
+end
+function OnClickCreate_teen_FlamingPhoenixIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/FlamingPhoenixIsland_teen/"]);
+end
+function OnClickCreate_teen_FrostRoarIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/FrostRoarIsland_teen/"]);
+end
+function OnClickCreate_teen_AncientEgyptIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/AncientEgyptIsland_teen/"]);
+end
+function OnClickCreate_teen_DarkForestIsland()
+    OnClickCreate(worlds_config_mapping["worlds/MyWorlds/DarkForestIsland_teen/"]);
+end
+
+function OnClickCreate(world_config_file)
+    local positions = {};
+    local asset = pageCtrl:GetValue("asset");
+    if(asset and asset ~= "") then
+        if(world_config_file) then
+	        local xmlRoot = ParaXML.LuaXML_ParseFile(world_config_file);
+	        if(xmlRoot) then
+	            local arena;
+	            for arena in commonlib.XPath.eachNode(xmlRoot, "/arenas/arena") do
+		            local position = arena.attr.position;
+                    local x, y, z = string.match(position, "(.+),(.+),(.+)");
+					if(x and y and z) then
+						x = tonumber(x);
+						y = tonumber(y);
+						z = tonumber(z);
+                        table.insert(positions, {x, y, z});
+					end
+	            end
+	            local arena;
+	            for arena in commonlib.XPath.eachNode(xmlRoot, "/arenas/pvp_arena") do
+		            local position = arena.attr.position;
+                    local x, y, z = string.match(position, "(.+),(.+),(.+)");
+					if(x and y and z) then
+						x = tonumber(x);
+						y = tonumber(y);
+						z = tonumber(z);
+                        table.insert(positions, {x, y, z});
+					end
+	            end
+
+                local _, each_arena;
+                for _, each_arena in ipairs(positions) do
+				    local obj_params = {};
+				    obj_params.name = "createarena_".._;
+				    obj_params.x = each_arena[1];
+				    obj_params.y = each_arena[2];
+				    obj_params.z = each_arena[3];
+				    obj_params.AssetFile = asset;
+				    obj_params.IsCharacter = false;
+				    obj_params.facing = 0;
+				    obj_params.scaling = 1;
+				    obj_params.EnablePhysics = true;
+                    obj_params.PhysicsRadius = 100;
+
+				    -- skip saving to history for recording or undo.
+				    System.SendMessage_obj({type = Map3DSystem.msg.OBJ_CreateObject, 
+					    obj_params = obj_params, 
+					    SkipHistory = true, 
+					    silentmode = true,
+				    });
+                end
+	        end
+        else
+            _guihelper.MessageBox("不是公共世界 不支持创建")
+        end
+    end
+end
+
+function OnClickArenaAsset_kids(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("asset", "model/06props/v5/06combat/Common/Arena/HaqiTown_Basic.x");
+    page:SetValue("asset", "model/06props/v5/06combat/Common/Arena/HaqiTown_Basic.x");
+end
+function OnClickArenaAsset_teen(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("asset", "model/06props/v5/06combat/Common/Arena/HaqiTown_Basic_teen.x");
+    page:SetValue("asset", "model/06props/v5/06combat/Common/Arena/HaqiTown_Basic_teen.x");
+end
+function OnClickArenaAsset_bound(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("asset", "model/06props/v5/06combat/Common/Arena/HaqiTown_Basic_teen.x");
+    page:SetValue("asset", "model/06props/v5/06combat/Common/Arena/HaqiTown_Basic_teen.x");
+end
+
+]]></script>
+
+<div style="margin:20px;">
+
+    把法阵根据策划的配置添加到世界中
+    <hr/>
+    显式资源:
+    <input type="text" name="asset" style="width:400px;" value="model/06props/v5/06combat/Common/Arena/HaqiTown_Basic_teen.x"/><br/>
+    <input type="button" name="asset_kids" value="儿童法阵" onclick="OnClickArenaAsset_kids"/>
+    <input type="button" name="asset_teen" value="青年法阵" onclick="OnClickArenaAsset_teen"/>
+    <input type="button" name="asset_bound" value="包围体" onclick="OnClickArenaAsset_bound"/>
+    <br/>
+    <hr/>
+    <br/>
+    创建法阵
+    <br/>
+    <input type="submit" name="next" value="哈1新手" onclick="OnClickCreate_kids_NewUserIsland"/>
+    <input type="submit" name="next" value="哈1哈奇" onclick="OnClickCreate_kids_61HaqiTown"/>
+    <input type="submit" name="next" value="哈1火鸟" onclick="OnClickCreate_kids_FlamingPhoenixIsland"/>
+    <input type="submit" name="next" value="哈1寒冰" onclick="OnClickCreate_kids_FrostRoarIsland"/>
+    <input type="submit" name="next" value="哈1沙漠" onclick="OnClickCreate_kids_AncientEgyptIsland"/>
+    <br/>
+    
+    <input type="submit" name="next" value="哈2哈奇" onclick="OnClickCreate_teen_61HaqiTown"/>
+    <input type="submit" name="next" value="哈2火鸟" onclick="OnClickCreate_teen_FlamingPhoenixIsland"/>
+    <input type="submit" name="next" value="哈2寒冰" onclick="OnClickCreate_teen_FrostRoarIsland"/>
+    <input type="submit" name="next" value="哈2沙漠" onclick="OnClickCreate_teen_AncientEgyptIsland"/>
+    <input type="submit" name="next" value="哈2死亡" onclick="OnClickCreate_teen_DarkForestIsland"/>
+
+    <br/>
+    <hr/>
+
+</div>
+</pe:mcml> 
+</body>
+</html>

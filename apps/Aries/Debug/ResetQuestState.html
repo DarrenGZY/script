@@ -1,0 +1,689 @@
+﻿<!-- "script/apps/Aries/Debug/ResetQuestState.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="AdvItemView.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+local ItemManager = System.Item.ItemManager;
+local hasGSItem = ItemManager.IfOwnGSItem;
+local equipGSItem = ItemManager.IfEquipGSItem;
+function ShowAllAreas()
+    local Desktop = commonlib.gettable("MyCompany.Aries.Desktop");
+    Desktop.ShowAllAreas()
+end
+function HideAllAreas()
+    local Desktop = commonlib.gettable("MyCompany.Aries.Desktop");
+    Desktop.HideAllAreas()
+end
+function TrySchoolMotion()
+    HideAllAreas()
+	local params = {
+		url = "script/apps/Aries/Login/Tutorial/PickSchoolOfSpell.teen.html", 
+		name = "OnPickSchoolOfSpell", 
+		isShowTitleBar = false,
+		app_key = MyCompany.Aries.app.app_key, 
+		DestroyOnClose = true,
+		style = CommonCtrl.WindowFrame.ContainerStyle,
+		zorder = 10,
+		allowDrag = false,
+		directPosition = true,
+			align = "_lt",
+			x = 10,
+			y = 0,
+			width = 200,
+			height = 580,
+	};
+    System.App.Commands.Call("File.MCMLWindowFrame", params);
+end
+function ResetItems(gsids)
+    local ItemManager = System.Item.ItemManager;
+    local hasGSItem = ItemManager.IfOwnGSItem;
+    ItemManager.GetItemsInBag(30011, "reset_quest_dragon", function(msg)
+	    local count = ItemManager.GetItemCountInBag(30011);
+	    local allitems = {};
+	    local i;
+	    for i = 1, count do
+		    local item = ItemManager.GetItemByBagAndOrder(30011, i);
+		    if(item and item.guid > 0) then
+		        table.insert(allitems, {guid = item.guid, gsid = item.gsid, copies = item.copies});
+		    end
+	    end
+	    local _, gsid;
+	    for _, gsid in ipairs(gsids) do 
+            local bHas, guid = hasGSItem(gsid);
+            if(bHas == true) then
+                local item = ItemManager.GetItemByGUID(guid);
+                if(item and item.guid > 0) then
+		            table.insert(allitems, {guid = item.guid, gsid = item.gsid, copies = item.copies});
+                end
+            end
+	    end
+	    local _, param;
+	    for _, param in pairs(allitems) do
+            ItemManager.DestroyItem(param.guid, param.copies, function() end);
+	    end
+    end, "access plus 0 day");
+end
+
+function ResetPet()
+	_guihelper.MessageBox("您确认重置所有宠物任务的道具和记录?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+		    ResetItems({19001, 17005, 1065, 21005, 17006, 1007, 16012, 17007, 1022, 30018, 15001, 20009, 10113, 15002});
+		end	
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function ResetAvatar()
+	_guihelper.MessageBox("您确认重置所有角色创建信息?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+		    ResetItems({999, 10001, 11009, 11010, 11011, 11012, 1027, 1028, 1029, 1030, 1031, 1032, 1033, 1034, 1035, 1036, 
+		    1050, 1051, 1052, 1053, 1054, 
+		    1055, 1056, 1057, 1058, 1059, 
+		    1060, 1061, 1062, 1063, 1064, 
+		    1103, 1104, 1105, 
+		    19002});
+		end	
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function ResetTutorial()
+	_guihelper.MessageBox("您确认重置所有新手指引信息?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+		    ResetItems({10001, 19002, 50042, 50043, 50044, 50045, 50046, 50047, 50116, 50117, 50118});
+		end	
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function RecvAllFoodSeries()
+	_guihelper.MessageBox("您确认接受所有贪吃任务?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+            local Quest = MyCompany.Aries.Quest;
+            
+            local petLevel = 0;
+            -- get pet level
+            local bean = MyCompany.Aries.Pet.GetBean();
+            if(bean) then
+	            petLevel = bean.level or 0;
+            end
+            
+	        local FoodSeries = MyCompany.Aries.Quest.NPCs.FoodSeries;
+	        
+	        -- 50151 ~ 150157 : food series
+	        if(petLevel >= 2 and FoodSeries.CanAcquireQuest(1)) then
+		        FoodSeries.AcquireQuest(1);
+		    end
+	        if(petLevel >= 2 and FoodSeries.CanAcquireQuest(2)) then
+		        FoodSeries.AcquireQuest(2);
+		    end
+	        if(petLevel >= 2 and FoodSeries.CanAcquireQuest(3)) then
+		        FoodSeries.AcquireQuest(3);
+		    end
+	        if(FoodSeries.CanAcquireQuest(4)) then
+		        FoodSeries.AcquireQuest(4);
+		    end
+	        if(FoodSeries.CanAcquireQuest(5)) then
+		        FoodSeries.AcquireQuest(5);
+		    end
+	        if(FoodSeries.CanAcquireQuest(6)) then
+		        FoodSeries.AcquireQuest(6);
+		    end
+	        if(FoodSeries.CanAcquireQuest(7)) then
+		        FoodSeries.AcquireQuest(7);
+		    end
+	        if(FoodSeries.CanAcquireQuest(8)) then
+		        FoodSeries.AcquireQuest(8);
+		    end
+	        if(FoodSeries.CanAcquireQuest(9)) then
+		        FoodSeries.AcquireQuest(9);
+		    end
+	        if(FoodSeries.CanAcquireQuest(10)) then
+		        FoodSeries.AcquireQuest(10);
+		    end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function TryRecvAllPetSeries()
+	_guihelper.MessageBox("您确认尝试接受所有随机跟随宠物任务?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+            local Quest = MyCompany.Aries.Quest;
+            
+            local petLevel = 0;
+            -- get pet level
+            local bean = MyCompany.Aries.Pet.GetBean();
+            if(bean) then
+	            petLevel = bean.level or 0;
+            end
+            
+	        local FollowPetSeries = MyCompany.Aries.Quest.NPCs.FollowPetSeries;
+	        
+	        -- 50161 ~ 50167 : followpet series
+	        if(petLevel >= 3 and FollowPetSeries.CanAcquireQuest(1)) then
+		        FollowPetSeries.AcquireQuest(1);
+		    end
+	        if(petLevel >= 3 and FollowPetSeries.CanAcquireQuest(2)) then
+		        FollowPetSeries.AcquireQuest(2);
+		    end
+	        if(petLevel >= 4 and FollowPetSeries.CanAcquireQuest(3)) then
+		        FollowPetSeries.AcquireQuest(3);
+		    end
+	        if(petLevel >= 4 and FollowPetSeries.CanAcquireQuest(4)) then
+		        FollowPetSeries.AcquireQuest(4);
+		    end
+	        if(petLevel >= 3 and FollowPetSeries.CanAcquireQuest(5)) then
+		        FollowPetSeries.AcquireQuest(5);
+		    end
+	        if(petLevel >= 3 and FollowPetSeries.CanAcquireQuest(6)) then
+		        FollowPetSeries.AcquireQuest(6);
+		    end
+	        if(FollowPetSeries.CanAcquireQuest(7)) then
+		        FollowPetSeries.AcquireQuest(7);
+		    end
+	        if(FollowPetSeries.CanAcquireQuest(8)) then
+		        FollowPetSeries.AcquireQuest(8);
+		    end
+	        if(FollowPetSeries.CanAcquireQuest(9)) then
+		        FollowPetSeries.AcquireQuest(9);
+		    end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+
+function TryRecvAllGameSeries()
+	_guihelper.MessageBox("您确认尝试接受所有随机游戏任务?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+            local Quest = MyCompany.Aries.Quest;
+            
+            local petLevel = 0;
+            -- get pet level
+            local bean = MyCompany.Aries.Pet.GetBean();
+            if(bean) then
+	            petLevel = bean.level or 0;
+            end
+            
+	        local GameSeries = MyCompany.Aries.Quest.NPCs.GameSeries;
+	        
+	        -- 50171 ~ 50174 : game series
+	        if(GameSeries.CanAcquireQuest(1)) then
+		        GameSeries.AcquireQuest(1);
+		    end
+	        if(GameSeries.CanAcquireQuest(2)) then
+		        GameSeries.AcquireQuest(2);
+		    end
+	        if(GameSeries.CanAcquireQuest(3)) then
+		        GameSeries.AcquireQuest(3);
+		    end
+	        if(GameSeries.CanAcquireQuest(4)) then
+		        GameSeries.AcquireQuest(4);
+		    end
+	        if(GameSeries.CanAcquireQuest(5)) then
+		        GameSeries.AcquireQuest(5);
+		    end
+	        if(GameSeries.CanAcquireQuest(6)) then
+		        GameSeries.AcquireQuest(6);
+		    end
+	        if(GameSeries.CanAcquireQuest(7)) then
+		        GameSeries.AcquireQuest(7);
+		    end
+	        if(GameSeries.CanAcquireQuest(8)) then
+		        GameSeries.AcquireQuest(8);
+		    end
+	        if(petLevel >= 2 and GameSeries.CanAcquireQuest(9)) then
+		        GameSeries.AcquireQuest(9);
+		    end
+	        if(petLevel >= 2 and GameSeries.CanAcquireQuest(10)) then
+		        GameSeries.AcquireQuest(10);
+		    end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+
+function TryRecvAllHomelandSeries()
+	_guihelper.MessageBox("您确认尝试接受所有随机家园系列任务?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+            local Quest = MyCompany.Aries.Quest;
+            
+            local petLevel = 0;
+            -- get pet level
+            local bean = MyCompany.Aries.Pet.GetBean();
+            if(bean) then
+	            petLevel = bean.level or 0;
+            end
+            
+	        local HomelandSeries = MyCompany.Aries.Quest.NPCs.HomelandSeries;
+        	
+	        if(HomelandSeries.CanAcquireQuest(1)) then
+		        HomelandSeries.AcquireQuest(1);
+		    end
+	        if(HomelandSeries.CanAcquireQuest(2)) then
+		        HomelandSeries.AcquireQuest(2);
+		    end
+	        if(HomelandSeries.CanAcquireQuest(3)) then
+		        HomelandSeries.AcquireQuest(3);
+		    end
+	        if(HomelandSeries.CanAcquireQuest(4)) then
+		        HomelandSeries.AcquireQuest(4);
+		    end
+	        if(HomelandSeries.CanAcquireQuest(5)) then
+		        HomelandSeries.AcquireQuest(5);
+		    end
+	        if(HomelandSeries.CanAcquireQuest(6)) then
+		        HomelandSeries.AcquireQuest(6);
+		    end
+	        if(HomelandSeries.CanAcquireQuest(7)) then
+		        HomelandSeries.AcquireQuest(7);
+		    end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function TryRecvRandomWish_100129()
+	_guihelper.MessageBox("您确认尝试接受所有1月29日随机心愿?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+            local Quest = MyCompany.Aries.Quest;
+            
+            local petLevel = 0;
+            -- get pet level
+            local bean = MyCompany.Aries.Pet.GetBean();
+            if(bean) then
+	            petLevel = bean.level or 0;
+            end
+            
+	        local HomelandSeries = MyCompany.Aries.Quest.NPCs.HomelandSeries;
+	        local GameSeries = MyCompany.Aries.Quest.NPCs.GameSeries;
+	        local FoodSeries = MyCompany.Aries.Quest.NPCs.FoodSeries;
+        	
+	        if(HomelandSeries.CanAcquireQuest(7)) then
+		        HomelandSeries.AcquireQuest(7);
+		    end
+	        if(GameSeries.CanAcquireQuest(7)) then
+		        GameSeries.AcquireQuest(7);
+		    end
+	        if(GameSeries.CanAcquireQuest(8)) then
+		        GameSeries.AcquireQuest(8);
+		    end
+	        if(petLevel >= 2 and FoodSeries.CanAcquireQuest(10)) then
+		        FoodSeries.AcquireQuest(10);
+		    end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function TryRecvRandomWish_100205()
+	_guihelper.MessageBox("您确认尝试接受所有2月5日随机心愿?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+            local Quest = MyCompany.Aries.Quest;
+            
+            local petLevel = 0;
+            -- get pet level
+            local bean = MyCompany.Aries.Pet.GetBean();
+            if(bean) then
+	            petLevel = bean.level or 0;
+            end
+            
+	        local HomelandSeries = MyCompany.Aries.Quest.NPCs.HomelandSeries;
+	        local GameSeries = MyCompany.Aries.Quest.NPCs.GameSeries;
+	        local FoodSeries = MyCompany.Aries.Quest.NPCs.FoodSeries;
+        	
+	        if(petLevel >= 2 and GameSeries.CanAcquireQuest(9)) then
+		        GameSeries.AcquireQuest(9);
+		    end
+	        if(petLevel >= 2 and GameSeries.CanAcquireQuest(10)) then
+		        GameSeries.AcquireQuest(10);
+		    end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+
+function CareOnce()
+	_guihelper.MessageBox("您确认强力照顾别人宠物一次?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+	        if(hasGSItem(50182)) then
+		        ItemManager.PurchaseItem(50183, 1, function(msg) end, function(msg)
+			        if(msg) then
+				        log("+++++++Purchase 50183_DoctorHealOther_Counter return: +++++++\n")
+				        commonlib.echo(msg);
+			        end
+		        end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function CareTenTimes()
+	_guihelper.MessageBox("您确认强力照顾别人宠物十次?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+	        if(hasGSItem(50182)) then
+		        ItemManager.PurchaseItem(50183, 10, function(msg) end, function(msg)
+			        if(msg) then
+				        log("+++++++Purchase 50183_DoctorHealOther_Counter return: +++++++\n")
+				        commonlib.echo(msg);
+			        end
+		        end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function GuardOnce()
+	_guihelper.MessageBox("您确认强力站岗一次?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+	        if(hasGSItem(50002)) then
+		        ItemManager.PurchaseItem(50006, 1, function(msg) end, function(msg)
+			        if(msg) then
+				        log("+++++++Purchase 50006_StandGuardPost_DailyQuestCompleteCounter return: +++++++\n")
+				        commonlib.echo(msg);
+			        end
+		        end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function GuardTenTimes()
+	_guihelper.MessageBox("您确认强力站岗十次?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+	        if(hasGSItem(50002)) then
+		        ItemManager.PurchaseItem(50006, 10, function(msg) end, function(msg)
+			        if(msg) then
+				        log("+++++++Purchase 50006_StandGuardPost_DailyQuestCompleteCounter return: +++++++\n")
+				        commonlib.echo(msg);
+			        end
+		        end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function ResetFeedDate()
+	_guihelper.MessageBox("您确认重置为昨天喂鸡?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+		    local bHas, guid = hasGSItem(50185);
+	        if(bHas) then
+		        ItemManager.SetClientData(guid, "4321", function(msg) end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function VoteSelfPopularity()
+    
+	-- vote myself popularity
+	local msg = {
+		tonid = System.App.profiles.ProfileManager.GetNID(),
+	};
+	paraworld.users.VotePopularity(msg, "DanceArena_VoteSelfPopularity", function(msg) 
+		log("====== hack popularity returns: ======\n")
+		commonlib.echo(msg);
+		if(msg.issuccess == true) then
+			-- success vote popularity
+			UIAnimManager.PlayCustomAnimation(1000, function(elapsedTime)
+				if(elapsedTime == 1000) then
+					-- auto update the user info
+					System.App.profiles.ProfileManager.GetUserInfo(nil, "UpdateUserName_AfterVotePopularity", function(msg)
+					end, "access plus 0 day");
+				end
+			end);
+			_guihelper.MessageBox("加了一点人气");
+		elseif(msg.errorcode) then
+		end
+	end);
+end
+
+function EarthQuake()
+    MyCompany.Aries.Quest.NPCs.EarthQuake.ShakeTownAss();
+end
+
+function TryEveningProcess()
+    local seconds_since0000 = MyCompany.Aries.Scene.GetElapsedSecondsSince0000();
+    MyCompany.Aries.Player.SetEveningParams(seconds_since0000 + 65, 60)
+end
+
+function AllowTeleport()
+    Map3DSystem.bAllowTeleport = true;
+end
+
+function TurnOffBackGroundMusic()
+	MyCompany.Aries.Scene.StopRegionBGMusic();
+end
+
+function TryAdd100HP()
+    MyCompany.Aries.Combat.MsgHandler.HealByWisp(100);
+end
+
+function TryMinus100HP()
+    MyCompany.Aries.Combat.MsgHandler.HealByWisp(-100);
+end
+
+function TryAdd1000HP()
+    MyCompany.Aries.Combat.MsgHandler.HealByWisp(1000);
+end
+
+function TryMinus1000HP()
+    MyCompany.Aries.Combat.MsgHandler.HealByWisp(-1000);
+end
+
+function TryRemoveAntiIndulgence()
+    local bHas, guid = hasGSItem(994);
+    if(bHas == true) then
+        ItemManager.DestroyItem(guid, 1, function() end);
+        _guihelper.MessageBox("请重启客户端");
+    end
+end
+
+function TryGotoFlamingPhoenixIsland()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name="FlamingPhoenixIsland"});
+end
+
+function TryGotoFrostRoarIsland()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name="FrostRoarIsland"});
+end
+
+function TryGotoAncientEgyptIsland()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name="AncientEgyptIsland"});
+end
+
+function TryGotoDarkForestIsland()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name="DarkForestIsland"});
+end
+
+function TryGotoCloudFortressIsland()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name="CloudFortressIsland"});
+end
+
+function TryGotoNewUserIsland()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name="NewUserIsland"});
+end
+
+function ToggleGameServerProfiler()
+    GameServer.rest.client:ToggleServerProfiler(Page:GetValue("profiling_thread", "1"))
+end
+
+function Gain1000Joybean()
+    MyCompany.Aries.Player.AddMoney(1000, function() end);
+end
+
+function Gain10000Exp()
+    MyCompany.Aries.Player.AddExp(10000, function() end);
+end
+
+function TryEnterYYsDream()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_YYsDream_S1");
+end
+
+function TestGemMergeSuccessRate()
+    
+    -- 26001_HPGems01
+    -- 26002_HPGems02
+
+    local test_count = 0;
+    local test_count_success = 0;
+    local test_count_fail = 0;
+    local test_count_rate = 0;
+
+    
+    local hasGSItem = ItemManager.IfOwnGSItem;
+
+    local function RefillGem1()
+        local bHas_26001 = hasGSItem(26001);
+        local bHas_26002 = hasGSItem(26002);
+		System.Item.ItemManager.PurchaseItem(26001, 900, function(msg) 
+		end, function(msg) 
+            ItemManager.MergeTry();
+        end, nil, "none");
+    end
+    local function DestroyGem2()
+        local bHas_26001 = hasGSItem(26001);
+        local bHas_26002, guid, _, copies = hasGSItem(26002);
+		System.Item.ItemManager.DestroyItem(guid, copies, function(msg) 
+		end, function(msg) 
+            ItemManager.MergeTry();
+        end, nil, "none");
+    end
+    
+    local function RefillJoybean()
+	    local msg = {
+		    emoney = 9999999,
+	    };
+	    paraworld.users.AddMoney(msg, "Player.AddMoney", function(msg)
+		    ItemManager.MergeTry();
+		    -- get the user info in local server
+		    System.App.profiles.ProfileManager.GetUserInfo(nil, nil, nil, "access plus 1 minute");
+	    end);
+    end
+    
+    function ItemManager.MergeTry()
+        local bHas_26001, guid, _, copies_26001 = hasGSItem(26001);
+        local bHas_26002, ____, _, copies_26002 = hasGSItem(26002);
+        local userinfo = System.App.profiles.ProfileManager.GetUserInfoInMemory()
+        if(userinfo.emoney < 50000) then
+            RefillJoybean();
+        elseif(bHas_26002 and copies_26002 > 50) then
+            DestroyGem2();
+        elseif(not bHas_26001 or copies_26001 > 10) then
+            ItemManager.CraftGem2({[guid] = 4}, 26002, function(msg) end, function(msg)
+                if(msg.issuccess == true) then
+                    if(msg.errorcode == 0) then
+                        test_count_success = test_count_success + 1;
+                    elseif(msg.errorcode == 492) then
+                        test_count_fail = test_count_fail + 1;
+                    end
+                end
+                test_count = test_count + 1;
+                commonlib.ShowDebugString("count", tostring(test_count))
+                commonlib.ShowDebugString("success", tostring(test_count_success))
+                commonlib.ShowDebugString("fail", tostring(test_count_fail))
+                commonlib.ShowDebugString("rate", string.format("%.2f%%", test_count_success * 100 / (test_count_fail + test_count_fail)))
+
+                if(test_count < 1000000) then
+                    ItemManager.MergeTry();
+                end
+            end)
+        else
+            RefillGem1();
+        end
+    end
+
+    ItemManager.MergeTry();
+end
+
+
+]]></script>
+    <div style="float:left;width:300px;">
+        重置所有宠物任务的道具和记录<input type="button" tooltip="重置所有宠物任务的道具和记录" style="float:right;margin-left:14px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="ResetPet()"/>
+        <br/>
+        重置所有角色创建信息<input type="button" tooltip="重置所有角色创建信息" style="float:right;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="ResetAvatar()"/>
+        <br/>
+        重置所有新手指引信息<input type="button" tooltip="重置所有新手指引信息" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="ResetTutorial()"/>家园部分要进入一次家园才能重置
+        <br/>
+        接受所有贪吃任务<input type="button" tooltip="接受所有贪吃任务" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="RecvAllFoodSeries()"/>
+        <br/>
+        尝试接受所有随机跟随宠物任务<input type="button" tooltip="尝试接受所有随机跟随宠物任务" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryRecvAllPetSeries()"/>
+        <br/>
+        尝试接受所有随机游戏任务<input type="button" tooltip="尝试接受所有随机游戏任务" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryRecvAllGameSeries()"/>
+        <br/>
+        尝试接受所有随机家园任务<input type="button" tooltip="尝试接受所有随机家园系列任务" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryRecvAllHomelandSeries()"/>
+        <br/>
+        关闭背景音乐<input type="button" tooltip="关闭背景音乐" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TurnOffBackGroundMusic()"/>
+        <br/>
+        允许传送<input type="button" tooltip="允许传送" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="AllowTeleport()"/>
+    </div>
+    <div style="float:left;width:300px;">
+        +100点血<input type="button" tooltip="+100 HP" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryAdd100HP()"/>
+        
+        -100点血<input type="button" tooltip="-100 HP" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryMinus100HP()"/>
+        <br/>
+        +1000点血<input type="button" tooltip="+1000 HP" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryAdd1000HP()"/>
+        
+        -1000点血<input type="button" tooltip="-1000 HP" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryMinus1000HP()"/>
+        <br/>
+        重置防沉迷时间<input type="button" tooltip="重置防沉迷时间 要重启客户端" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryRemoveAntiIndulgence()"/>
+        梦境空间<input type="button" tooltip="梦境空间" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterYYsDream()"/>
+        <br/>
+        1000奇豆<input type="button" tooltip="1000奇豆" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="Gain1000Joybean()"/>
+        10000经验<input type="button" tooltip="10000经验" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="Gain10000Exp()"/>
+        <br/>
+        跳转火鸟岛<input type="button" tooltip="跳转火鸟岛" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryGotoFlamingPhoenixIsland()"/>
+        跳转寒冰岛<input type="button" tooltip="跳转寒冰岛" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryGotoFrostRoarIsland()"/>
+        <br/>
+        跳转沙漠岛<input type="button" tooltip="跳转沙漠岛" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryGotoAncientEgyptIsland()"/>
+        跳转死亡岛<input type="button" tooltip="跳转死亡岛" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryGotoDarkForestIsland()"/>
+        跳转天空岛<input type="button" tooltip="跳转天空岛" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryGotoCloudFortressIsland()"/>
+        <br/>
+        跳转新手岛<input type="button" tooltip="跳转新手岛" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryGotoNewUserIsland()"/>
+        <br/>
+        强力照顾别人宠物一次<input type="button" tooltip="强力照顾别人宠物一次" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="CareOnce()"/>
+        <br/>
+        强力照顾别人宠物十次<input type="button" tooltip="强力照顾别人宠物十次" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="CareTenTimes()"/>
+        <br/>
+        重置为昨天喂鸡<input type="button" tooltip="重置为昨天喂鸡" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="ResetFeedDate()"/>
+        <br/>
+        青年版选系别播放效果测试<input type="button" tooltip="青年版选系别播放效果测试" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TrySchoolMotion()"/>
+        <br/>
+        显示桌面<input type="button" tooltip="显示桌面" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="ShowAllAreas()"/>
+        <br/>
+        隐藏桌面<input type="button" tooltip="隐藏桌面" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="HideAllAreas()"/>
+        <br/>
+    </div>
+    <div style="float:left;width:300px;">
+        强力站岗一次<input type="button" tooltip="强力站岗一次" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="GuardOnce()"/>
+        <br/>
+        强力站岗十次<input type="button" tooltip="强力站岗十次" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="GuardTenTimes()"/>
+        <br/>
+        给自己加人气<input type="button" tooltip="给自己加人气" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="VoteSelfPopularity()"/>
+        <br/>
+        人肉地震<input type="button" tooltip="人肉地震" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="EarthQuake()"/>
+        <br/>
+        1月29日版本随机任务<input type="button" tooltip="1月29日版本随机任务" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryRecvRandomWish_100129()"/>
+        <br/>
+        一分钟天黑过程体验<input type="button" tooltip="一分钟天黑过程体验" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryEveningProcess()"/>
+        <br/>
+        2月5日版本随机任务<input type="button" tooltip="2月5日版本随机任务" style="float:right;margin-left:0px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="TryRecvRandomWish_100205()"/>
+        <br/>
+        <input type="button" zorder="1" style="width:120px;height:32px;" onclick="TestGemMergeSuccessRate()" text="测试宝石合成成功率" name='dsa' />
+        <div style="float:left;width:300px;margin:5px;">
+            GameServer: NPL性能统计：<br />线程名：
+            <select name="profiling_thread">
+                <option value="1" selected="true"></option>
+                <option value="2"></option>
+                <option value="3"></option>
+                <option value="4"></option>
+                <option value="r"></option>
+            </select>
+            <input type="button" tooltip="统计当前连接的GameServer两次点击之间的内容&#10;文件很大，每秒钟1MB左右&#10;查看__profiler目录" value="开始 / 结束" onclick="ToggleGameServerProfiler()"/>
+            <br/>
+        </div>
+    </div>
+    
+</pe:mcml> 
+</body>
+</html>

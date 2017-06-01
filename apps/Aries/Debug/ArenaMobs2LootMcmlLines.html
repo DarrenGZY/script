@@ -1,0 +1,382 @@
+﻿<!-- "script/apps/Aries/Debug/ArenaMobs2LootMcmlLines.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="PublishProcess.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+local path_name = pageCtrl:GetValue("path_Name");
+
+function checkFile()
+MyCompany.Aries.Debug.PublishProcess.checkFile(path_name);
+end
+
+function Test()
+MyCompany.Aries.Debug.PublishProcess.LpTestXML();
+end
+
+function DoRead()
+    local arenas_mobs_name = pageCtrl:GetValue("Arenas_Mobs_Name");
+
+    local xmlRoot = ParaXML.LuaXML_ParseFile(arenas_mobs_name);
+
+	
+
+    
+
+    local all_mob_templates = {};
+    
+    local available_loots = {};
+    
+    local available_loots_normal = {};
+    local available_loots_hard = {};
+    
+    if(xmlRoot) then
+	    local each_mob;
+	    for each_mob in commonlib.XPath.eachNode(xmlRoot, "/arenas/arena/mob") do
+            if(each_mob.attr.mob_template and each_mob.attr.mob_template ~= "") then
+                all_mob_templates[each_mob.attr.mob_template] = true;
+				
+            end
+        end
+    end
+
+    local template_path, _;
+    for template_path, _ in pairs(all_mob_templates) do
+        
+        local xmlRoot = ParaXML.LuaXML_ParseFile(template_path);
+        
+        if(not xmlRoot) then
+		    commonlib.log("error: failed loading common loot list file: %s\n", config_file);
+		    return;
+        end
+        
+	    local each_mob;
+	    for each_mob in commonlib.XPath.eachNode(xmlRoot, "/mobtemplate/mob") do
+            
+			
+			
+            if(each_mob.attr.loot1) then
+                local section;
+				
+                for section in string.gmatch(each_mob.attr.loot1, "%[(%d+),%d+%]=%d+") do
+
+                   
+                    available_loots[tonumber(section)] = true;
+                    available_loots_normal[tonumber(section)] = true;
+                    available_loots_hard[tonumber(section)] = true;
+                end
+            end
+            if(each_mob.attr.loot2) then
+                local section;
+                for section in string.gmatch(each_mob.attr.loot2, "%[(%d+),%d+%]=%d+") do
+                    available_loots[tonumber(section)] = true;
+                    available_loots_normal[tonumber(section)] = true;
+                    available_loots_hard[tonumber(section)] = true;
+                end
+            end
+            if(each_mob.attr.loot3) then
+                local section;
+                for section in string.gmatch(each_mob.attr.loot3, "%[(%d+),%d+%]=%d+") do
+                    available_loots[tonumber(section)] = true;
+                    available_loots_normal[tonumber(section)] = true;
+                    available_loots_hard[tonumber(section)] = true;
+                end
+            end
+            
+            if(each_mob.attr.loot1_hard) then
+                local section;
+                for section in string.gmatch(each_mob.attr.loot1_hard, "%[(%d+),%d+%]=%d+") do
+                    available_loots[tonumber(section)] = true;
+                    available_loots_hard[tonumber(section)] = true;
+                end
+            end
+            if(each_mob.attr.loot2_hard) then
+                local section;
+                for section in string.gmatch(each_mob.attr.loot2_hard, "%[(%d+),%d+%]=%d+") do
+                    available_loots[tonumber(section)] = true;
+                    available_loots_hard[tonumber(section)] = true;
+                end
+            end
+            if(each_mob.attr.loot3_hard) then
+                local section;
+                for section in string.gmatch(each_mob.attr.loot3_hard, "%[(%d+),%d+%]=%d+") do
+                    available_loots[tonumber(section)] = true;
+                    available_loots_hard[tonumber(section)] = true;
+                end
+            end
+        end
+    end
+    
+	local file = ParaIO.open("config/Aries/Mob_Teen/Common_Loots.csv", "w");
+	if(file:IsValid() ~= true) then
+		commonlib.log("error: failed loading common loot list file: %s\n", config_file);
+
+		return;
+	end
+	
+	
+    
+	local line = file:readline();
+	-- read next line
+	line = file:readline();
+    
+
+
+	
+	
+	while(line) do
+        local section;
+        for section in string.gmatch(line, ",(%d%d%d%d),[^,]+,[^,]+") do
+            available_loots[tonumber(section)] = true;
+			
+        end
+        local section;
+        for section in string.gmatch(line, ",(%d%d%d%d%d),[^,]+,[^,]+") do
+            available_loots[tonumber(section)] = true;
+        end
+		-- read next line
+		line = file:readline();
+    end
+	file:close();
+
+    local log_line = "";
+    local gsid, _;
+    for gsid, _ in pairs(available_loots) do
+        local ItemManager = commonlib.gettable("System.Item.ItemManager");
+        if(ItemManager.GetGlobalStoreItemInMemory) then
+            local gsItem = ItemManager.GetGlobalStoreItemInMemory(gsid);
+            if(gsItem) then
+                log(gsid.."    ")
+				 --_guihelper.MessageBox(gsItem.template.name);
+				 _guihelper.MessageBox("kkk");
+				
+                log(commonlib.Encoding.Utf8ToDefault(gsItem.template.name).." ");
+				commonlib.log(gsItem.template.name);
+				--log("\n")
+			   -- log("李鹏");
+                log("\n")
+                
+            end
+        end
+    end
+    
+    log("\n\n")
+
+    local log_line = "";
+    local gsid, _;
+    for gsid, _ in pairs(available_loots) do
+        log(gsid..",1|");
+        log_line = log_line..gsid..",1|";
+    end
+
+    ParaMisc.CopyTextToClipboard(log_line);
+
+    log("\n\n")
+
+    --_guihelper.MessageBox("完毕! 看log.txt");
+end
+
+function DoReadMobTemplate()
+    
+    local mob_name = pageCtrl:GetValue("Mob_Name");
+
+    ParaIO.CreateDirectory("config/Aries/test/");
+	
+    _guihelper.MessageBox(type(mob_name)..mob_name);
+	local xmlRoot = ParaXML.LuaXML_ParseFile(mob_name);
+   -- _guihelper.MessageBox(xmlRoot);
+    
+	--local each_mob;
+	--local hpBegin;
+	--local hpValue;
+	--local hpEnd;
+	--local loot;
+    local attrName,attrValue;
+	local loot_test_res;
+
+    loot_test_res = "";
+	for each_mob in commonlib.XPath.eachNode(xmlRoot,"/mobtemplate/mob") do
+        for attrName,attrValue in pairs(each_mob.attr) do
+               --_guihelper.MessageBox(attrName);
+            if(string.find(attrName,"loot") and attrValue) then 
+		        --_guihelper.MessageBox(attrValue);
+				--_guihelper.MessageBox("111");
+		        if(checkLoot(attrValue,attrName)) then
+                      loot_test_res = loot_test_res..attrName.."测试完成，配置无误".."   ";
+				end
+			end
+		end
+
+        --_guihelper.MessageBox(each_mob.attr);
+	    -- if(each_mob.attr.loot1) then 
+        --     checkLoot(each_mob.attr.loot1);
+		-- end
+             
+	end
+   -- _guihelper.MessageBox(loot_test_res);
+end
+
+function checkLoot(lootValue,lootName)
+
+   local lootContent;
+   local sBegin,sEnd;
+   local lootNum;
+   local len;
+   local nextIndex;
+   local itemGSID;
+   local itemCount;
+   local itemPro;
+   local totalPro;
+   local loot_name;
+   
+   --_guihelper.MessageBox("111");
+  -- _guihelper.MessageBox(lootName);
+   loot_name = lootName;
+   lootContent = string.sub(lootValue,2,-2);
+   len = tonumber(string.len(lootContent));
+   nextIndex = 1;
+   lootNum=0;
+   totalPro=0;
+       while(nextIndex < len) do
+        lootNum = lootNum+1;
+         sBegin,sEnd = string.find(lootContent,"%[",nextIndex);
+	      if(lootNum == 1) then
+            if(not sBegin or sBegin ~= 1) then  
+	             _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."头部中括号缺失"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+		  else
+            if(sEnd ~= nextIndex) then
+	             _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."头部中括号缺失");
+				 return;
+            else
+			    nextIndex = sEnd + 1;
+	        end
+
+		  end
+         sBegin,sEnd = string.find(lootContent,"%d+",nextIndex);
+              
+            itemGSID = tonumber(string.sub(lootContent,sBegin,sEnd));
+	        if(itemGSID < 0) then
+			     _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."掉落物品GSID不符合规范");
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+         sBegin,sEnd = string.find(lootContent,",",nextIndex);
+		    if(sEnd ~= nextIndex) then
+			     _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."中间逗号缺失"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+		 sBegin,sEnd = string.find(lootContent,"%d+",nextIndex);
+
+            itemCount = tonumber(string.sub(lootContent,sBegin,sEnd));
+		    if(itemCount < 0) then
+			     _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."掉落物品数量配置错误"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+
+		sBegin,sEnd = string.find(lootContent,"%]",nextIndex);
+	   
+            if(sEnd ~= nextIndex) then  
+	             _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."尾部中括号缺失"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+
+		sBegin,sEnd = string.find(lootContent,"=",nextIndex);
+		    if(sEnd ~= nextIndex) then
+			     _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."等号缺失"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+		sBegin,sEnd = string.find(lootContent,"%d+%.*%d*",nextIndex);
+
+            itemPro = tonumber(string.sub(lootContent,sBegin,sEnd));
+		    if(itemPro < 0 or itemPro >100) then
+			     _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."掉落物品几率配置错误"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+				totalPro = totalPro + itemPro;
+				if(totalPro > 100) then 
+				   _guihelper.MessageBox(loot_name.."概率总和超过100");
+				   return;
+				end
+	        end
+		
+		if(nextIndex < len) then
+
+          sBegin,sEnd = string.find(lootContent,",",nextIndex);
+		    if(sEnd ~= nextIndex) then
+			     _guihelper.MessageBox(loot_name.."中".."第"..lootNum.."个".."末尾逗号缺失"); 
+				 return;
+            else 
+			    nextIndex = sEnd + 1;
+	        end
+        
+		end
+
+    end
+
+ --_guihelper.MessageBox(loot_name.."测试完成，配置无误"); 
+ return true;
+
+end
+
+
+
+--function readfile()    
+--    ParaIO.
+--end
+
+]]></script>
+   <!-- 流程: <br/>
+    1 在下方填写arenas_mobs.xml的路径 比如 config/Aries/WorldData/AncientEgyptIsland.Arenas_Mobs.xml<br/>
+    2 点击生成<br/>
+    3 在log.txt的最后一段就是当前这个副本或者世界的所有掉落<br/>
+    4 直接的掉落字符串默认复制到剪切板 可以复制到配置中<br/>
+    5 log的最后有每个gsid对应的物品名称  方便直接查阅<br/>
+    Arenas_Mobs路径: <input type="text" zorder="1" style="width:400px;height:24px;" text="config/Aries/WorldData_Teen/HaqiTown_FireCavern.Arenas_Mobs.xml" name='Arenas_Mobs_Name' />
+    <br/>
+    <input type="button" zorder="1" style="width:96px;height:32px;" onclick="DoRead()" text="生成" name='Test43342' />
+    <br/>
+	-->
+    ModTemplate路径：<input type="text" zorder="1" style="width:500px;height:24px;"  name="path_Name" />
+	<br/>
+    <input type="button" zorder="1"  style="width:96px;height:32px;" onclick="checkFile()" text="检查" name='Test' />
+<!--	
+	<div >
+		<input type="text" id="checkRes" name="checkRes" />
+	
+	</div>
+-->
+    <br/>
+    <input type="button" zorder="1"  style="width:96px;height:32px;" onclick="Test()" text="test" name='Test' />
+	<!--
+    <br/> 
+	怪物配置检查（默认基本配置正确）：<br />
+	<div>
+	     <div style="float:left;">
+	        <pe:gridview name="mobList" style="float:left;margin-top:10px;margin-left:3px;width:400px;height:65px;" ItemPerLine="1" AllowPaging="true" pagesize="30" DataSource="">
+     
+	        </pe:gridview>
+	     </div>
+	</div>
+	-->
+</pe:mcml> 
+</body>
+</html>

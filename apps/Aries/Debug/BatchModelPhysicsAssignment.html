@@ -1,0 +1,59 @@
+﻿<!-- "script/apps/Aries/Debug/BatchModelPhysicsAssignment.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BatchModelPhysicsAssignment, by Andy, 2011/9/28</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+
+
+function DoAssign()
+    local assetname = pageCtrl:GetValue("AssetName")
+    local scale = pageCtrl:GetValue("scale")
+    scale = tonumber(scale)
+
+    
+	local fromX, fromY, fromZ = ParaScene.GetPlayer():GetPosition();
+
+    local objlist = {};
+
+	local nCount = ParaScene.GetObjectsBySphere(objlist, fromX, fromY, fromZ, 100000, "anyobject");
+	
+    local objparams = {};
+	local k = 1;
+    for k = 1, nCount do
+		local obj = objlist[k];
+        local asset_name = obj:GetPrimaryAsset():GetKeyName();
+        local asset_scale = obj:GetScale();
+        if(asset_name == assetname) then
+            if(asset_scale >= scale) then
+                obj:EnablePhysics(true)
+            else
+                obj:EnablePhysics(false)
+            end
+        end
+    end
+
+    _guihelper.MessageBox("完成!")
+end
+]]></script>
+    批量设置模型物理流程: <br/>
+    1 把要设置物体的资源路径复制到资源路径<br/>
+    2 把要修改的大小输入到scale<br/>
+    3 大于等于scale的同资源物体将被设置为有物理<br/>
+    4 小于scale的同资源物体将被设置为没有物理<br/>
+    5 整个过程可能需要几秒钟的时间 等待场景有响应时完成<br/>
+    <br/>
+    资源路径: <input type="text" zorder="1" style="width:400px;height:24px;" text="" name='AssetName' />
+    <br/>
+    scale: <input type="text" zorder="1" style="width:64px;height:24px;" text="" name='scale' />
+    <br/>
+    <input type="button" zorder="1" style="width:96px;height:32px;" onclick="DoAssign()" text="设置物理" name='Test43342' />
+</pe:mcml> 
+</body>
+</html>

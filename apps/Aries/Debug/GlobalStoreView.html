@@ -1,0 +1,1176 @@
+﻿<!-- "script/apps/Aries/Debug/GlobalStoreView.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>SampleShopView, by Andy, 2009/6/1</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" refresh="false"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+local tabpage = document:GetPageCtrl():GetRequestParam("tab");
+if(tabpage and tabpage~="") then
+    document:GetPageCtrl():SetNodeValue("ShoppingTabs", tabpage);
+end
+function Close()
+    pageCtrl:CloseWindow();
+end
+
+
+skill_all_checks = "";
+
+local i
+for i = 22101, 22340 do
+    skill_all_checks = skill_all_checks..string.format([[<pe:item gsid='%d' style="width:151px;height:230px" showdebugdesc="true"/>]], i);
+end
+
+function DS_Items(index)
+    if(index == nil) then
+        return 1;
+    elseif(index == 1) then
+        return {};
+    end
+end
+
+local function add_item(t, gsid)
+    if(type(gsid) == "number") then
+        t[#t+1] = {gsid=gsid}
+    elseif(type(gsid) == "table") then
+        local _, id;
+        for _,id in ipairs(gsid) do
+            t[#t+1] = {gsid=id}
+        end
+    end
+end
+
+ds_equip_set2 = {}
+
+local gsid
+for gsid = 1301, 1370 do
+    add_item(ds_equip_set2, gsid);
+end
+add_item(ds_equip_set2, {1415, 1430, 1385, 1400,26001, 26002, 26012, 26090, 26701, 1415, 1420, 1425, 1713})
+for gsid = 1908, 2041 do
+    add_item(ds_equip_set2, gsid);
+end
+function ds_func_equip_set2(index)
+    if(not index) then
+        return #ds_equip_set2;
+    else
+        return ds_equip_set2[index];
+    end
+end
+
+]]></script>
+    <div style ="width:1000px;height:840px">
+    <pe:tabs name="ShoppingTabs">
+        <pe:tab-item text="系统+测试" name="System">
+            <pe:item gsid='999' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='64' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='998' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='984' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='22000' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21101' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21102' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21103' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21104' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='25008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='17149' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17151' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17155' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16051' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='17152' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17153' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17154' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+            <pe:item gsid='40001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='40003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17178' style="width:64px;height:64px" showdebugdesc="true"/>
+
+        </pe:tab-item>
+        <pe:tab-item text="装备" name="apparels">
+            <pe:item gsid='1001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1014' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1015' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1016' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1017' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1018' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1019' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1020' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1021' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1022' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1023' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1024' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1025' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1026' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1027' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1028' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1029' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1030' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1031' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1032' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1033' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1034' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1035' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1036' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1037' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1038' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1039' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1040' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1041' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1042' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1043' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1044' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1045' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1046' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1047' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1048' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1049' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1050' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1051' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1052' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1053' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1054' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1055' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1056' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1057' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1058' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1059' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1060' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1061' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1062' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1063' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1064' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1065' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='1106' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='1107' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1108' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1109' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1110' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1111' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1112' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1113' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1114' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='1150' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1135' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1157' style="width:64px;height:64px" showdebugdesc="true"/><!--凿子-->
+            <pe:item gsid='1085' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1132' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1086' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1101' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1277' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+        </pe:tab-item>
+        <pe:tab-item text="战斗装备" name="combat_apparels">
+            <pe:item gsid='1231' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1232' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1233' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1234' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1235' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1236' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1237' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1238' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1239' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1240' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1241' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1242' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1243' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1244' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1245' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1246' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1247' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1248' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1249' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1250' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1251' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1252' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1253' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1254' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1255' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1256' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1257' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1258' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1259' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1260' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1261' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1262' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1263' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1264' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1265' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1266' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1267' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1268' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1269' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1270' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1271' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1272' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1273' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1274' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1275' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1276' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='24001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='24008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='986' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='987' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='988' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='989' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='990' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='991' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='992' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='1284' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1285' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1286' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1287' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1288' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1289' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='1290' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1291' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1292' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1293' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1294' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1295' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1296' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1297' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1298' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1299' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1300' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='1696' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1701' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='1788' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+        </pe:tab-item>
+        <pe:tab-item text="战斗装备2" name="combat_apparels2">
+            <pe:gridview DataSource="<%=ds_func_equip_set2 %>" name="gvw_combat_apparels2"
+                ItemsPerLine="14" AllowPaging="true" pagesize="98" >
+                <Columns>
+                    <pe:item gsid='<%=Eval("gsid") %>' style="width:64px;height:64px" showdebugdesc="true"/>
+                </Columns>
+                <PagerSettings Position="Top" height="26" />
+            </pe:gridview>
+        </pe:tab-item>
+
+        <pe:tab-item text="动作" name="action">
+            <pe:item gsid='9001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='15001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='15002' style="width:64px;height:64px" showdebugdesc="true"/>
+        </pe:tab-item>
+        <pe:tab-item text="投掷" name="throwable">
+            <pe:item gsid='9501' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9502' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9503' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='9505' style="width:64px;height:64px" showdebugdesc="true"/>
+        </pe:tab-item>
+        
+        <pe:tab-item text="宠物" name="pet">
+            <pe:item gsid='10001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10101' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10102' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10103' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10104' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10105' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10106' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10107' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10108' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10109' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10110' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10111' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10112' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10113' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10114' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10115' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10116' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10117' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10118' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10119' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10120' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10121' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10122' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10123' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10124' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10125' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10126' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10127' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10128' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10129' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10130' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10131' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10135' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10136' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10137' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10141' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='10143' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10150' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10151' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10152' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10153' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10154' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10161' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10146' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10141' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10135' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10173' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10174' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10175' style="width:64px;height:64px" showdebugdesc="true"/> 
+            <pe:item gsid='10176' style="width:64px;height:64px" showdebugdesc="true"/> 
+           
+        </pe:tab-item>
+        <pe:tab-item text="宠物换装" name="petapparels">
+            <pe:item gsid='11001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='11012' style="width:64px;height:64px" showdebugdesc="true"/>
+        </pe:tab-item>
+        <pe:tab-item text="消耗" name="consumable">
+            <pe:item gsid='16001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16014' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16015' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16016' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16017' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16018' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16019' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16020' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16021' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16022' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16023' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16024' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16025' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16026' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16027' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16065' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='984' style="width:64px;height:64px" showdebugdesc="true"/>
+
+            <!--<pe:item gsid='60' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='61' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='62' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='63' style="width:64px;height:64px" showdebugdesc="true"/>-->
+            <br/>
+            <pe:item gsid='16028' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16029' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16030' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16031' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16032' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16033' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16034' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16035' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16036' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16037' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16038' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16039' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16040' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16041' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16042' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16043' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16044' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16045' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16046' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16047' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16048' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16049' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='16050' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='17121' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17122' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17123' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17124' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17125' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17126' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17127' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17128' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17129' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17130' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='17131' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17132' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17133' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17134' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17135' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17136' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17137' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17138' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17139' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17140' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='12014' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+        </pe:tab-item>
+        <pe:tab-item text="收集" name="collectable">
+            <pe:item gsid='17001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17014' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17015' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17016' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17017' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17018' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17019' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17020' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17021' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17022' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17029' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17030' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17031' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17032' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17033' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17034' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17035' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17036' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17037' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17038' style="width:64px;height:64px" showdebugdesc="true"/><!-- IceHouseBluePrint-->
+            <pe:item gsid='17039' style="width:64px;height:64px" showdebugdesc="true"/><!-- DarkStone-->
+            <pe:item gsid='17040' style="width:64px;height:64px" showdebugdesc="true"/><!-- icebrick-->
+            <pe:item gsid='17041' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17042' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17043' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17044' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17045' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17046' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17047' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17048' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17049' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17050' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17051' style="width:64px;height:64px" showdebugdesc="true"/><!-- 星形石头-->
+            <pe:item gsid='17023' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17024' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17025' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17026' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='17052' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17053' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17054' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17055' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17056' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17057' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17058' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17059' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17060' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17061' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17062' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17063' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17064' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17065' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17066' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17067' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17068' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17069' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17070' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17071' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17072' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17073' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17074' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17075' style="width:64px;height:64px" showdebugdesc="true"/><!-- 羽毛-->
+            <pe:item gsid='17076' style="width:64px;height:64px" showdebugdesc="true"/><!-- 金橘枝-->
+            <pe:item gsid='17077' style="width:64px;height:64px" showdebugdesc="true"/><!-- 红枫叶-->
+            <pe:item gsid='17078' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17079' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17080' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17081' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17082' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17083' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17085' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17086' style="width:64px;height:64px" showdebugdesc="true"/><!-- 春水-->
+            <pe:item gsid='17087' style="width:64px;height:64px" showdebugdesc="true"/><!-- 春泥-->
+            <pe:item gsid='17088' style="width:64px;height:64px" showdebugdesc="true"/><!-- 海水-->
+            <pe:item gsid='17090' style="width:64px;height:64px" showdebugdesc="true"/><!-- 收集的西瓜-->
+            <pe:item gsid='17096' style="width:64px;height:64px" showdebugdesc="true"/><!-- 小红花-->
+            <pe:item gsid='30143' style="width:64px;height:64px" showdebugdesc="true"/><!-- 波点蘑菇伞-->
+            <pe:item gsid='30144' style="width:64px;height:64px" showdebugdesc="true"/><!-- 波点沙滩椅-->
+            <pe:item gsid='17106' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17107' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17108' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17109' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17110' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17111' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17172' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17185' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17211' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+            
+            
+        </pe:tab-item>
+        <pe:tab-item text="收集2" name="collectable2">
+            <pe:item gsid='17112' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17113' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17114' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17115' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17116' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17117' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17118' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17119' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17120' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17144' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17145' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17146' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17147' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17148' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17143' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26031' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26032' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26033' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26034' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26035' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26036' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26037' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26038' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26039' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26040' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26041' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26042' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26043' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26044' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26045' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26046' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26047' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26048' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26049' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26050' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26051' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26052' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26053' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26054' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26055' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26056' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26057' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26058' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26059' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26060' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20901' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20902' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20903' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17151' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17167' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17166' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17168' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17044' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17045' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17046' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17076' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17085' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17089' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17090' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17091' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17092' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17097' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17098' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17099' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26081' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26082' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26083' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26084' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26085' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26086' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26087' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26088' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26089' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='26090' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='17179' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+        </pe:tab-item>
+
+        
+        <pe:tab-item text="徽章" name="medal">
+            <pe:item gsid='20001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20016' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20017' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20018' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20019' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='20020' style="width:64px;height:64px" showdebugdesc="true"/>
+        </pe:tab-item>
+        <pe:tab-item text="家园" name="homeland">
+            <pe:item gsid='30135' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30007' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30008' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30009' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30096' style="width:64px;height:64px" showdebugdesc="true"/><!--西梅-->
+            <pe:item gsid='30097' style="width:64px;height:64px" showdebugdesc="true"/><!--麻烦树种子-->
+            <pe:item gsid='30098' style="width:64px;height:64px" showdebugdesc="true"/><!--梅花种子-->
+            <pe:item gsid='30099' style="width:64px;height:64px" showdebugdesc="true"/><!--金橘种子-->
+            <pe:item gsid='30117' style="width:64px;height:64px" showdebugdesc="true"/><!--康乃馨种子-->
+            <pe:item gsid='30126' style="width:64px;height:64px" showdebugdesc="true"/><!--蒲公英种子-->
+            <pe:item gsid='30131' style="width:64px;height:64px" showdebugdesc="true"/><!--糖卷卷种子-->
+            <pe:item gsid='30132' style="width:64px;height:64px" showdebugdesc="true"/><!--泡泡糖种子-->
+            <pe:item gsid='30133' style="width:64px;height:64px" showdebugdesc="true"/><!--夹心蛋糕种子-->
+            <pe:item gsid='30134' style="width:64px;height:64px" showdebugdesc="true"/><!--糖豆豆种子-->
+            <pe:item gsid='30164' style="width:64px;height:64px" showdebugdesc="true"/><!--苹果种子-->
+            <pe:item gsid='30163' style="width:64px;height:64px" showdebugdesc="true"/><!--玉米种子-->
+            <pe:item gsid='30165' style="width:64px;height:64px" showdebugdesc="true"/><!--香蕉种子-->
+            
+            <pe:item gsid='30012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30136' style="width:64px;height:64px" showdebugdesc="true"/><!--巧克力花圃-->
+            <pe:item gsid='30014' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30015' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30016' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30017' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30018' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30019' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30020' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30021' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30022' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30023' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30024' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30025' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30026' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30027' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30028' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30029' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30030' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30031' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30032' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30033' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30034' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30035' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30036' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30037' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30038' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30039' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30040' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30041' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30058' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30059' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30060' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30069' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30070' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30071' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30072' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30180' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='39101' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='39102' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30061' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30062' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30063' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30064' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30065' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30066' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30067' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30068' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+            <pe:item gsid='30080' style="width:64px;height:64px" showdebugdesc="true"/><!--海苔冰灯-->
+            <pe:item gsid='30081' style="width:64px;height:64px" showdebugdesc="true"/><!--雪绒花地毯-->
+            <pe:item gsid='30082' style="width:64px;height:64px" showdebugdesc="true"/><!--毛线娃娃-->
+            <pe:item gsid='30093' style="width:64px;height:64px" showdebugdesc="true"/><!--音乐盒-->
+            <pe:item gsid='30094' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30095' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30122' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30123' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30124' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30125' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+            <pe:item gsid='30137' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30138' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30139' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='30171' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30179' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30172' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30173' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30175' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30176' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30177' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='30184' style="width:64px;height:64px" showdebugdesc="true"/><!--能量池-->
+        </pe:tab-item>
+        <pe:tab-item text="任务" name="questrelated">
+            <pe:item gsid='50001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50006' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50010' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50011' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50012' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50013' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50014' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50015' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50016' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50017' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50018' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50019' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50020' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50021' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50022' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50023' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50024' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50025' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50026' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50027' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50028' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50029' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50030' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50031' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50032' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50033' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50034' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50035' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50036' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50037' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50038' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50039' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50040' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50041' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50042' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50043' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50044' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50045' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50046' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50047' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50048' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50049' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50050' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50051' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50052' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50053' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50054' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50055' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            
+            <pe:item gsid='50071' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50072' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50073' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50074' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50075' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50076' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50077' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50078' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50079' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50080' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50081' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50082' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50083' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50084' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50085' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50086' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50087' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50088' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50089' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50090' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50091' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50092' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50093' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50094' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50095' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50096' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50097' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50098' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50099' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50100' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50101' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50102' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50103' style="width:64px;height:64px" showdebugdesc="true"/>
+            
+            <pe:item gsid='50181' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50182' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50183' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50187' style="width:64px;height:64px" showdebugdesc="true"/>
+            <br/>
+            <pe:item gsid='50208' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50231' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50333' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='50337' style="width:64px;height:64px" showdebugdesc="true"/>
+
+            
+        </pe:tab-item>
+        <!--<pe:tab-item text="卡片卷轴" name="cards">
+            <pe:item gsid='22001' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22002' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22003' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22004' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22005' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22006' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22007' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22008' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22009' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22010' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22011' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22012' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22013' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22014' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22015' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22016' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22017' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22018' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22019' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22020' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22021' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22022' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22023' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22024' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22025' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22026' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22027' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22028' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22029' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22030' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22031' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22032' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22033' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22034' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22035' style="width:77px;height:116px" showdebugdesc="true"/>
+        </pe:tab-item>-->
+        <pe:tab-item text="新技能" name="new_skills">
+            <pe:tabs name="ShoppingTabs">
+            <pe:tab-item text="火" name="fire">
+            <pe:item gsid='22101' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22102' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22103' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22104' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22105' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22106' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22107' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22108' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22109' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22110' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22111' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22112' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22113' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22114' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22115' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22116' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22117' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22118' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22119' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22120' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            
+            <pe:tab-item text="风暴" name="storm">
+            <pe:item gsid='22121' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22122' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22123' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22124' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22125' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22126' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22127' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22128' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22129' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22130' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22131' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22132' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22133' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22134' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22135' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22136' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22137' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22138' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            
+            <pe:tab-item text="冰" name="ice">
+            <pe:item gsid='22139' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22140' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22141' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22142' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22143' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22144' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22145' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22146' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22147' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22148' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22149' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22150' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22151' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22152' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22153' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22154' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22155' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22156' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22157' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            
+            <pe:tab-item text="生命" name="life">
+            <pe:item gsid='22158' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22159' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22160' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22161' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22162' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22163' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22164' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22165' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22166' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22167' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22168' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22169' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22170' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22171' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22172' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22173' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22174' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22175' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22176' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22177' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22178' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22179' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22180' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            
+            <pe:tab-item text="死亡" name="death">
+            <pe:item gsid='22181' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22182' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22183' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22184' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22185' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22186' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22187' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22188' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22189' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22190' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22191' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22192' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22193' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22194' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22195' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22196' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22197' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22198' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22199' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            
+            <pe:tab-item text="平砍" name="0pips">
+            <pe:item gsid='22200' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22201' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22202' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22203' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22204' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22210' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22211' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22212' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22213' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22214' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22220' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22221' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22222' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22223' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22224' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22230' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22231' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22232' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22233' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22234' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22240' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22241' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22242' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22243' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22244' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            <pe:tab-item text="新技能" name="newspell">
+            <pe:item gsid='22331' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22332' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22333' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22334' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22335' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            <pe:tab-item text="宠物等" name="misc">
+            <pe:item gsid='22250' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22251' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22252' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22253' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22254' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22255' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22256' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22257' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22258' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22259' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22260' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22261' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22262' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22263' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22264' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22265' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22266' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22267' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22268' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22269' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22270' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22271' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22272' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22273' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22274' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22275' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22276' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22277' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22278' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22279' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22280' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22281' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22282' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22283' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22284' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22285' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22286' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22287' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22288' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22289' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22290' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22291' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22292' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22293' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22294' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22295' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22296' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22297' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22298' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22299' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22300' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22301' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22302' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22303' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22304' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22305' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22306' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22307' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22308' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22309' style="width:77px;height:116px" showdebugdesc="true"/>
+            
+            <pe:item gsid='22310' style="width:77px;height:116px" showdebugdesc="true"/>
+            <pe:item gsid='22311' style="width:77px;height:116px" showdebugdesc="true"/>
+            </pe:tab-item>
+            </pe:tabs>
+        </pe:tab-item>
+        <pe:tab-item text="技能检查" name="new_skills_check">
+            <pe:gridview AllowPaging="False" pagesize="1" ItemsPerLine="1" style="width:930px;height:500px;" VerticalScrollBarStep="20" name="gvCCSItems" DataSource='<%=DS_Items%>' DefaultNodeHeight="500">
+                <Columns>
+                <form>
+                <%=Eval("skill_all_checks")%>
+                </form>
+                </Columns>
+            </pe:gridview>
+        </pe:tab-item>
+        <pe:tab-item text="浆果" name="acinus">
+            <pe:item gsid='21001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21002' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21003' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21004' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21005' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='21006' style="width:64px;height:64px" showdebugdesc="true"/>
+        </pe:tab-item>
+        <pe:tab-item text="读物" name="reading">
+            <pe:item gsid='19001' style="width:64px;height:64px" showdebugdesc="true"/>
+            <pe:item gsid='19002' style="width:64px;height:64px" showdebugdesc="true"/>
+        </pe:tab-item>
+    </pe:tabs>
+    </div>
+    <input type="button" onclick="Close()" style="margin-left:950px;margin-top:-800px;width:64px;height:64px;background:Texture/3DMapSystem/common/wrongsign.png;"/>
+</pe:mcml>
+</body>
+</html>

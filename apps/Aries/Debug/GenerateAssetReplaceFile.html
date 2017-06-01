@@ -1,0 +1,96 @@
+﻿<!-- "script/apps/Aries/Debug/GenerateAssetReplaceFile.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="GenerateAssetReplaceFile.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+function OnClickLocale_zhTW(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("postfix_filter", "_zhTW");
+    page:SetValue("postfix_filter", "_zhTW");
+end
+function OnClickLocale_enUS(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("postfix_filter", "_enUS");
+    page:SetValue("postfix_filter", "_enUS");
+end
+function OnClickLocale_jaJP(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("postfix_filter", "_jaJP");
+    page:SetValue("postfix_filter", "_jaJP");
+end
+function OnClickLocale_thTH(name, values)
+    local page = document:GetPageCtrl();
+	page:SetUIValue("postfix_filter", "_thTH");
+    page:SetValue("postfix_filter", "_thTH");
+end
+
+
+function OnClickGenerate(name, values)
+    local initdirs = {};
+    if(values.checkbox_character) then
+        table.insert(initdirs, "character/");
+    end
+    if(values.checkbox_model) then
+        table.insert(initdirs, "model/");
+    end
+    if(values.checkbox_texture) then
+        table.insert(initdirs, "Texture/");
+    end
+    
+    local filters = {};
+    if(values.checkbox_dds) then
+        table.insert(filters, "*.dds");
+    end
+    if(values.checkbox_png) then
+        table.insert(filters, "*.png");
+    end
+    if(values.checkbox_x) then
+        table.insert(filters, "*.x");
+    end
+    
+    local postfix = values.postfix_filter;
+    
+    if(#initdirs > 0 and #filters > 0 and postfix ~= "") then
+	    local page = document:GetPageCtrl();
+        MyCompany.Debug.GenerateAssetReplaceFile.OnClickGenerate(initdirs, filters, postfix);
+	    page:SetUIValue("result", "更新成功,请重起SDK")
+    end
+end
+]]></script>
+    
+    <form>
+        <div style="float:left;margin-top:20px;">更新AssetsReplaceFile: 按替换识别码的后缀命名替换文件，点击生成按钮后重起SDK</div><br/>
+        <div style="float:left;margin-top:20px;">确保根目录的这个文件是非只读状态AssetsReplaceFile.txt, AB包含这个文件</div><br/>
+        <div style="float:left;margin-top:20px;">本工具会将替换规则写到这里AssetsReplaceFile.txt</div><br/>
+        
+        <div style="width:80px;float:left;text-align:right">目录:</div>
+            <input type="checkbox" name="checkbox_character" checked="checked"/>character/
+            <input type="checkbox" name="checkbox_model" checked="checked"/>model/
+            <input type="checkbox" name="checkbox_texture" checked="checked"/>texture/<br/>
+        <div style="width:80px;float:left;text-align:right">文件类型:</div>
+            <input type="checkbox" name="checkbox_dds" checked="checked"/>*.dds
+            <input type="checkbox" name="checkbox_x" checked="checked"/>*.x
+            <input type="checkbox" name="checkbox_png" checked="checked"/>.png<br/>
+        <div style="width:80px;float:left;text-align:right">替换识别码:</div>
+            <!--<input type="text" name="postfix_filter" style="width:200px;" value="_091211"/><br/>-->
+            <input type="text" name="postfix_filter" style="width:200px;" value="_110411"/><br/>
+        多语言识别码:
+        <input type="button" name="zhTW" value="台湾zhTW" onclick="OnClickLocale_zhTW"/>
+        <input type="button" name="enUS" value="美国enUS" onclick="OnClickLocale_enUS"/>
+        <input type="button" name="jaJP" value="日本jaJP" onclick="OnClickLocale_jaJP"/>
+        <input type="button" name="thTH" value="泰国thTH" onclick="OnClickLocale_thTH"/>
+        <br/>
+        <input type="submit" name="next" value="生成资源替换文件" onclick="OnClickGenerate"/>
+        <label name="result" style="height:20px;margin-top:3px;margin-left:10px;color:#006600;font-weight:bold"/>
+    </form>
+
+</pe:mcml> 
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿<!-- "script/apps/Aries/Debug/DebugPanel.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DebugPanel, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="AdvItemView.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+local ItemManager = System.Item.ItemManager;
+local hasGSItem = ItemManager.IfOwnGSItem;
+local equipGSItem = ItemManager.IfEquipGSItem;
+
+function GuardTenTimes()
+	_guihelper.MessageBox("您确认强力站岗十次?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+	        if(hasGSItem(50002)) then
+		        ItemManager.PurchaseItem(50006, 10, function(msg) end, function(msg)
+			        if(msg) then
+				        log("+++++++Purchase 50006_StandGuardPost_DailyQuestCompleteCounter return: +++++++\n")
+				        commonlib.echo(msg);
+			        end
+		        end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function ResetFeedDate()
+	_guihelper.MessageBox("您确认重置为昨天喂鸡?", function(res)
+		if(res and res == _guihelper.DialogResult.Yes) then
+		    local bHas, guid = hasGSItem(50185);
+	        if(bHas) then
+		        ItemManager.SetClientData(guid, "4321", function(msg) end);
+	        end
+		end
+	end, _guihelper.MessageBoxButtons.YesNo);
+end
+
+function AllowTeleport()
+    Map3DSystem.bAllowTeleport = true;
+end
+
+function TurnOffBackGroundMusic()
+	MyCompany.Aries.Scene.StopRegionBGMusic();
+end
+
+function Debug1()
+    
+    -- check homeland item can gift
+    local ItemManager = System.Item.ItemManager;
+    local gsid = 1;
+    for gsid = 30000, 39999 do 
+        local gsItem = ItemManager.GlobalStoreTemplates[gsid];
+        if(gsItem) then
+            if(gsItem.template.cangift == true) then
+                log(gsid.." ")
+                log(gsItem.template.name.."\n")
+            end
+        end
+    end
+    
+    do return end
+    
+    -- check extended cost
+    local ItemManager = System.Item.ItemManager;
+    local exid = 1;
+    for exid = 216, 271 do 
+        local exTemplate = ItemManager.ExtendedCostTemplates[exid];
+        if(exTemplate) then
+            log(exTemplate.exname.."\n");
+            log("   "..exTemplate.otos.."\n");
+            log("\n");
+        end
+    end
+    
+    do return end
+    
+    -- check homeland item sell price and bonus
+    local ItemManager = System.Item.ItemManager;
+    local gsid = 1;
+    for gsid = 30000, 39999 do 
+        local gsItem = ItemManager.GlobalStoreTemplates[gsid];
+        if(gsItem) then
+            if(gsItem.ebuyprice) then
+                if(gsItem.ebuyprice * 0.9 ~= gsItem.esellprice) then
+                    commonlib.echo(gsid)
+                    commonlib.echo(gsItem.template.name)
+                elseif(gsItem.ebuyprice * 0.3 ~= gsItem.esellrandombonus) then
+                    commonlib.echo(gsid)
+                    commonlib.echo(gsItem.template.name)
+                end
+            end
+        end
+    end
+    
+    
+    do return end
+    
+    local ProfileManager = System.App.profiles.ProfileManager;
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    ProfileManager.GetSingleUserInfo(95118900, function(msg) log("1 return\n") commonlib.echo(msg) end, 5000, function() log("1 time out\n") end);
+    --ProfileManager.GetSingleUserInfo(14861822, function(msg) log("2 return\n") commonlib.echo(msg) end, 5000, function() log("2 time out\n") end);
+    --ProfileManager.GetSingleUserInfo(46650264, function(msg) log("3 return\n") commonlib.echo(msg) end, 5000, function() log("3 time out\n") end);
+    --ProfileManager.GetSingleUserInfo(95234081, function(msg) log("4 return\n") commonlib.echo(msg) end, 5000, function() log("4 time out\n") end);
+end
+
+]]></script>
+    <input type="button" tooltip="Debug1" style="float:right;margin-left:14px;margin-top:0px;width:48px;height:48px;background:texture/3dmapsystem/common/reset.png" onclick="Debug1()"/>
+    <div style="float:left;width:300px;height:512px;">
+    </div>
+    <div style="float:left;width:300px;height:512px;">
+        
+    </div>
+</pe:mcml> 
+</body>
+</html>

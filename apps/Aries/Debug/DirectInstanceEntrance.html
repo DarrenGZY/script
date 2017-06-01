@@ -1,0 +1,549 @@
+﻿<!-- "script/apps/Aries/Debug/DirectInstanceEntrance.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="AdvItemView.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+local ItemManager = System.Item.ItemManager;
+local hasGSItem = ItemManager.IfOwnGSItem;
+local equipGSItem = ItemManager.IfEquipGSItem;
+
+
+
+
+function TryEnterFireCavern()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_FireCavern");
+end
+
+function TryEnterFlamingPhoenixIsland_TheGreatTree()
+	MyCompany.Aries.Instance.EnterInstancePortal("FlamingPhoenixIsland_TheGreatTree");
+end
+
+function TryEnterHaqiTown_LightHouse_Hero()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_LightHouse_Hero");
+end
+
+function TryEnter_HaqiTown_LightHouse_S1()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_LightHouse_S1");
+end
+
+function TryEnter_HaqiTown_LightHouse_S2()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_LightHouse_S2");
+end
+
+function TryEnter_HaqiTown_LightHouse_S3()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_LightHouse_S3");
+end
+
+function TryEnter_HaqiTown_LightHouse_S4()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_LightHouse_S4");
+end
+
+
+function TryEnterFireCavern_Hero()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_FireCavern_Hero");
+end
+
+function TryEnterFireCavern110527_1()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_FireCavern_110527_1");
+end
+
+function TryEnterFireCavern110527_2()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_FireCavern_110527_2");
+end
+
+function TryEnterFlamingPhoenixIsland_TheGreatTree_110610_3()
+	MyCompany.Aries.Instance.EnterInstancePortal("FlamingPhoenixIsland_TheGreatTree_110610_3");
+end
+
+function TryEnterFrostRoarIsland_IceBearLair()
+	MyCompany.Aries.Instance.EnterInstancePortal("FrostRoarIsland_IceBearLair");
+end
+
+function TryEnterFrostRoarIsland_IceKingCave()
+	MyCompany.Aries.Instance.EnterInstancePortal("FrostRoarIsland_IceKingCave");
+end
+
+function TryEnterAncientEgyptIsland_LostTemple()
+	MyCompany.Aries.Instance.EnterInstancePortal("AncientEgyptIsland_LostTemple");
+end
+
+function TryEnterFrostRoarIsland_StormEye()
+	MyCompany.Aries.Instance.EnterInstancePortal("FrostRoarIsland_StormEye");
+end
+
+function TryEnterHaqiTown_YYsNightmare()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_YYsNightmare");
+end
+
+function TryEnterAncientEgyptIsland_PharaohFortress()
+	MyCompany.Aries.Instance.EnterInstancePortal("AncientEgyptIsland_PharaohFortress");
+end
+
+function TryEnterFlamingPhoenixIsland_TheGreatTree_Hero()
+	MyCompany.Aries.Instance.EnterInstancePortal("FlamingPhoenixIsland_TheGreatTree_Hero");
+end
+
+function TryEnterAncientEgyptIsland_LostTemple_NanJue()
+	MyCompany.Aries.Instance.EnterInstancePortal("AncientEgyptIsland_LostTemple_NanJue");
+end
+
+function TryEnterGlobal_CatTreasureHouse_Basic()
+	MyCompany.Aries.Instance.EnterInstancePortal("Global_CatTreasureHouse_Basic");
+end
+function TryEnterGlobal_CatTreasureHouse_Adv()
+	MyCompany.Aries.Instance.EnterInstancePortal("Global_CatTreasureHouse_Adv");
+end
+
+
+
+
+function TryEnterYYsDream()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_YYsDream_S1");
+end
+function TryEnter_HaqiTown_YYsDream_S4()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_YYsDream_S4");
+end
+function TryEnter_HaqiTown_YYsNightmare()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_YYsNightmare");
+end
+
+function TryEnter_Global_HaqiTown_TreasureHouse()
+	MyCompany.Aries.Instance.EnterInstancePortal("Global_HaqiTown_TreasureHouse");
+end
+
+function TryEnter_Global_FlamingPhoenixIsland_TreasureHouse()
+	MyCompany.Aries.Instance.EnterInstancePortal("Global_FlamingPhoenixIsland_TreasureHouse");
+end
+
+function TryEnter_Global_FrostRoarIsland_TreasureHouse()
+	MyCompany.Aries.Instance.EnterInstancePortal("Global_FrostRoarIsland_TreasureHouse");
+end
+
+function TryEnter_Global_AncientEgyptIsland_TreasureHouse()
+	MyCompany.Aries.Instance.EnterInstancePortal("Global_AncientEgyptIsland_TreasureHouse");
+end
+
+function TryEnter_HaqiTown_TrialOfChampions_Amateur()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_TrialOfChampions_Amateur");
+end
+function TryEnter_HaqiTown_TrialOfChampions_Intermediate()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_TrialOfChampions_Intermediate");
+end
+function TryEnter_HaqiTown_TrialOfChampions_Master()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_TrialOfChampions_Master");
+end
+
+function TryEnter_FlamingPhoenixIsland_GoldenOgreTreasureHouse()
+	MyCompany.Aries.Instance.EnterInstancePortal("FlamingPhoenixIsland_GoldenOgreTreasureHouse");
+end
+
+function TryEnter_HaqiTown_RedMushroomArena_1v1()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_RedMushroomArena_1v1");
+end
+
+function TryEnter_HaqiTown_RedMushroomArena_4v4()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_RedMushroomArena_4v4");
+end
+
+function TryEnter_HaqiTown_RedMushroomArena_AI_1v1()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_RedMushroomArena_AI_1v1");
+end
+
+
+function TryEnter_BattleField_ChampionsValley()
+	MyCompany.Aries.Instance.EnterInstancePortal("BattleField_ChampionsValley");
+end
+
+function TryEnter_BattleField_ChampionsValley_Coliseum()
+	MyCompany.Aries.Instance.EnterInstancePortal("BattleField_ChampionsValley_Coliseum");
+end
+
+function TryEnter_HaqiTown_GraduateExam_54_55()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_GraduateExam_54_55");
+end
+
+function TryEnter_HaqiTown_CampfireChallenge()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_CampfireChallenge");
+end
+
+
+function TryEnter_HaqiTown_TrialOfChampions_FairPlay_LowLevel()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_TrialOfChampions_FairPlay_LowLevel");
+end
+function TryEnter_HaqiTown_TrialOfChampions_FairPlay_HighLevel()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_TrialOfChampions_FairPlay_HighLevel");
+end
+
+function TryEnter_AncientEgyptIsland_SunkenRelic()
+	MyCompany.Aries.Instance.EnterInstancePortal("AncientEgyptIsland_SunkenRelic");
+end
+
+function TryEnter_DarkForestIsland_DeathDungeon()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_DeathDungeon");
+end
+
+function TryEnter_DarkForestIsland_LegionGrainDepot()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_LegionGrainDepot");
+end
+
+function TryEnter_DarkForestIsland_PirateNest()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_PirateNest");
+end
+
+function TryEnter_DarkForestIsland_PirateSeamaster()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_PirateSeamaster");
+end
+
+function TryEnter_DarkForestIsland_DemonNest_Spider()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_DemonNest_Spider");
+end
+function TryEnter_DarkForestIsland_DemonNest_Bat()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_DemonNest_Bat");
+end
+function TryEnter_DarkForestIsland_DemonNest_Crocodile()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_DemonNest_Crocodile");
+end
+function TryEnter_DarkForestIsland_DemonNest_Wolf()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_DemonNest_Wolf");
+end
+
+function TryEnter_HaqiTown_HarshDesert()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_HarshDesert");
+end
+function TryEnter_DarkForestIsland_DeathHeadQuarter()
+	MyCompany.Aries.Instance.EnterInstancePortal("DarkForestIsland_DeathHeadQuarter");
+end
+
+function TryEnter_CloudFortressIsland_MoltenCore()
+	MyCompany.Aries.Instance.EnterInstancePortal("CloudFortressIsland_MoltenCore");
+end
+
+function TryEnter_CloudFortressIsland_DragonLair()
+	MyCompany.Aries.Instance.EnterInstancePortal("CloudFortressIsland_DragonLair");
+end
+function TryEnter_CloudFortressIsland_BearChieftain()
+	MyCompany.Aries.Instance.EnterInstancePortal("CloudFortressIsland_BearChieftain");
+end
+function TryEnter_CloudFortressIsland_HauntedValley()
+	MyCompany.Aries.Instance.EnterInstancePortal("CloudFortressIsland_HauntedValley");
+end
+function TryEnter_CloudFortressIsland_QueensBattleship()
+	MyCompany.Aries.Instance.EnterInstancePortal("CloudFortressIsland_QueensBattleship");
+end
+function TryEnter_CloudFortressIsland_FrighteningSoul()
+	MyCompany.Aries.Instance.EnterInstancePortal("CloudFortressIsland_FrighteningSoul");
+end
+
+function TryEnter_HaqiTown_YYsDream_S2_H()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_YYsDream_S2_H");
+end
+
+function TryEnter_HaqiTown_Christmas_Colorful_World()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_Christmas_Colorful_World");
+end
+
+
+
+
+
+function TryEnter_AncientEgyptIsland_LostTemple_DeathLandEntrance()
+	MyCompany.Aries.Instance.EnterInstancePortal("AncientEgyptIsland_LostTemple_DeathLandEntrance");
+end
+
+function TryEnter_HaqiTown_Practice_PVP_1V1()
+	MyCompany.Aries.Instance.EnterInstancePortal("HaqiTown_Practice_PVP_1V1");
+end
+
+function TryEnter_CrazyTower_1_to_5()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_1_to_5");
+end
+function TryEnter_CrazyTower_6_to_10()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_6_to_10");
+end
+function TryEnter_CrazyTower_11_to_15()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_11_to_15");
+end
+function TryEnter_CrazyTower_16_to_20()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_16_to_20");
+end
+function TryEnter_CrazyTower_21_to_25()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_21_to_25");
+end
+function TryEnter_CrazyTower_26_to_30()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_26_to_30");
+end
+function TryEnter_CrazyTower_31_to_35()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_31_to_35");
+end
+function TryEnter_CrazyTower_36_to_40()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_36_to_40");
+end
+function TryEnter_CrazyTower_41_to_45()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_41_to_45");
+end
+function TryEnter_CrazyTower_46_to_50()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_46_to_50");
+end
+function TryEnter_CrazyTower_51_to_55()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_51_to_55");
+end
+function TryEnter_CrazyTower_56_to_60()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_56_to_60");
+end
+function TryEnter_CrazyTower_61_to_65()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_61_to_65");
+end
+function TryEnter_CrazyTower_66_to_70()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_66_to_70");
+end
+function TryEnter_CrazyTower_71_to_75()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_71_to_75");
+end
+function TryEnter_CrazyTower_76_to_80()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_76_to_80");
+end
+function TryEnter_CrazyTower_81_to_85()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_81_to_85");
+end
+function TryEnter_CrazyTower_86_to_90()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_86_to_90");
+end
+function TryEnter_CrazyTower_91_to_95()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_91_to_95");
+end
+function TryEnter_CrazyTower_96_to_100()
+	MyCompany.Aries.Instance.EnterInstancePortal("CrazyTower_96_to_100");
+end
+
+function TryEnterTutorial()
+end
+function TryEnterCombatTutorial()
+end
+function TryEnterCombatPipTutorial()
+    System.App.Commands.Call(System.App.Commands.GetDefaultCommand("LoadWorld"), {name = "CombatPipTutorial",
+			on_finish = function()
+				-- replace main character with dummy
+				local player = ParaScene.GetPlayer();
+				
+				LOG.std(nil, "debug", "tutorial", "39003_CombatPipTutorial loaded");
+
+				-- start the tutorial
+				if(System.options.version == "kids") then
+					NPL.load("(gl)script/apps/Aries/NPCs/Combat/39003_CombatPipTutorial.lua");
+				else
+					NPL.load("(gl)script/apps/Aries/Login/Tutorial/CombatPipTutorial.teen.lua");
+				end
+				MyCompany.Aries.Quest.NPCs.CombatPipTutorial.main(function()
+            
+						NPL.load("(gl)script/apps/Aries/Scene/WorldManager.lua");
+						local WorldManager = commonlib.gettable("MyCompany.Aries.WorldManager");
+
+						-- teleport back from instance world
+						WorldManager:TeleportBack();
+				end);
+			end});
+end
+]]></script>
+    <div style="float:left;width:250px;">
+        战斗教程<input type="button" tooltip="战斗教程" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterCombatTutorial()"/>
+        超魔教程<input type="button" tooltip="超魔教程" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterCombatPipTutorial()"/>
+
+        直接进火焰山洞<input type="button" tooltip="直接进火焰山洞" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFireCavern()"/>
+        <br/>
+        直接进神木空间<input type="button" tooltip="直接进神木空间" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFlamingPhoenixIsland_TheGreatTree()"/>
+        <br/>
+        直接进火焰山洞Hero<input type="button" tooltip="直接进火焰山洞hero" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFireCavern_Hero()"/>
+        <br/>
+        直接进火焰山洞110527_1<input type="button" tooltip="直接进火焰山洞110527" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFireCavern110527_1()"/>
+        <br/>
+        直接进火焰山洞110527_2<input type="button" tooltip="直接进火焰山洞110527" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFireCavern110527_2()"/>
+        <br/>
+        直接进TryEnterFlamingPhoenixIsland_TheGreatTree_110610_3<input type="button" tooltip="直接进TryEnterFlamingPhoenixIsland_TheGreatTree_110610_3" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFlamingPhoenixIsland_TheGreatTree_110610_3()"/>
+        <br/>
+        直接进TryEnterFrostRoarIsland_IceBearLair<input type="button" tooltip="直接进TryEnterFrostRoarIsland_IceBearLair" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFrostRoarIsland_IceBearLair()"/>
+        <br/>
+        直接进TryEnterFrostRoarIsland_IceKingCave<input type="button" tooltip="直接进TryEnterFrostRoarIsland_IceKingCave" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFrostRoarIsland_IceKingCave()"/>
+        <br/>
+        直接进TryEnterAncientEgyptIsland_LostTemple<input type="button" tooltip="直接进TryEnterAncientEgyptIsland_LostTemple" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterAncientEgyptIsland_LostTemple()"/>
+        <br/>
+        直接进TryEnterFrostRoarIsland_StormEye<input type="button" tooltip="直接进TryEnterFrostRoarIsland_StormEye" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFrostRoarIsland_StormEye()"/>
+        <br/>
+        直接进TryEnterHaqiTown_YYsNightmare<input type="button" tooltip="TryEnterHaqiTown_YYsNightmare" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterHaqiTown_YYsNightmare()"/>
+        
+        <br/>
+        
+        直接进宝箱世界哈奇岛<input type="button" tooltip="直接进宝箱世界哈奇岛" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_Global_HaqiTown_TreasureHouse()"/>
+        <br/>
+        直接进宝箱世界火鸟岛<input type="button" tooltip="直接进宝箱世界火鸟岛" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_Global_FlamingPhoenixIsland_TreasureHouse()"/>
+        <br/>
+        直接进宝箱世界寒冰岛<input type="button" tooltip="直接进宝箱世界寒冰岛" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_Global_FrostRoarIsland_TreasureHouse()"/>
+        <br/>
+        直接进宝箱世界沙漠古堡<input type="button" tooltip="直接进宝箱世界沙漠古堡" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_Global_AncientEgyptIsland_TreasureHouse()"/>
+        <br/>
+        直接进普通PK试练场<input type="button" tooltip="直接进普通PK试练场" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_TrialOfChampions_Amateur()"/>
+        <br/>
+        直接进中级PK试练场<input type="button" tooltip="直接进中级PK试练场" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_TrialOfChampions_Intermediate()"/>
+        <br/>
+        直接进高级PK试练场<input type="button" tooltip="直接进高级PK试练场" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_TrialOfChampions_Master()"/>
+        <br/>
+    </div>
+    <div style="float:left;width:250px;">
+        <br/>
+        直接进TryEnterAncientEgyptIsland_PharaohFortress<input type="button" tooltip="TryEnterAncientEgyptIsland_PharaohFortress" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterAncientEgyptIsland_PharaohFortress()"/>
+        <br/>
+        直接进TryEnterFlamingPhoenixIsland_TheGreatTree_Hero<input type="button" tooltip="FlamingPhoenixIsland_TheGreatTree_Hero" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterFlamingPhoenixIsland_TheGreatTree_Hero()"/>
+        <br/>
+        
+        直接进TryEnterAncientEgyptIsland_LostTemple_NanJue<input type="button" tooltip="AncientEgyptIsland_LostTemple_NanJue" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterAncientEgyptIsland_LostTemple_NanJue()"/>
+        <br/>
+        
+        直接进TryEnterGlobal_CatTreasureHouse_Basic<input type="button" tooltip="Global_CatTreasureHouse_Basic" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterGlobal_CatTreasureHouse_Basic()"/>
+        <br/>
+        直接进TryEnterGlobal_CatTreasureHouse_Adv<input type="button" tooltip="Global_CatTreasureHouse_Adv" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterGlobal_CatTreasureHouse_Adv()"/>
+        <br/>
+        
+        直接进百层塔_1_to_5<input type="button" tooltip="直接进百层塔_1_to_5" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_1_to_5()"/>
+        <br/>
+        直接进百层塔_6_to_10<input type="button" tooltip="直接进百层塔_6_to_10" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_6_to_10()"/>
+        <br/>
+        直接进百层塔_11_to_15<input type="button" tooltip="直接进百层塔_11_to_15" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_11_to_15()"/>
+        <br/>
+        直接进百层塔_16_to_20<input type="button" tooltip="直接进百层塔_16_to_20" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_16_to_20()"/>
+        <br/>
+        直接进百层塔_21_to_25<input type="button" tooltip="直接进百层塔_21_to_25" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_21_to_25()"/>
+        <br/>
+        直接进百层塔_26_to_30<input type="button" tooltip="直接进百层塔_26_to_30" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_26_to_30()"/>
+        <br/>
+        直接进百层塔_31_to_35<input type="button" tooltip="直接进百层塔_31_to_35" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_31_to_35()"/>
+        <br/>
+        直接进百层塔_36_to_40<input type="button" tooltip="直接进百层塔_36_to_40" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_36_to_40()"/>
+        <br/>
+        直接进百层塔_41_to_45<input type="button" tooltip="直接进百层塔_41_to_45" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_41_to_45()"/>
+        <br/>
+        直接进百层塔_46_to_50<input type="button" tooltip="直接进百层塔_46_to_50" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_46_to_50()"/>
+        <br/>
+        直接进百层塔_51_to_55<input type="button" tooltip="直接进百层塔_51_to_55" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_51_to_55()"/>
+        <br/>
+        直接进百层塔_56_to_60<input type="button" tooltip="直接进百层塔_56_to_60" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_56_to_60()"/>
+        <br/>
+        直接进百层塔_61_to_65<input type="button" tooltip="直接进百层塔_61_to_65" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_61_to_65()"/>
+        <br/>
+        直接进百层塔_66_to_70<input type="button" tooltip="直接进百层塔_66_to_70" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_66_to_70()"/>
+        <br/>
+        直接进百层塔_71_to_75<input type="button" tooltip="直接进百层塔_71_to_75" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_71_to_75()"/>
+        <br/>
+        直接进百层塔_76_to_80<input type="button" tooltip="直接进百层塔_76_to_80" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_76_to_80()"/>
+        <br/>
+        直接进百层塔_81_to_85<input type="button" tooltip="直接进百层塔_81_to_85" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_81_to_85()"/>
+        <br/>
+        直接进百层塔_86_to_90<input type="button" tooltip="直接进百层塔_86_to_90" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_86_to_90()"/>
+        <br/>
+        直接进百层塔_91_to_95<input type="button" tooltip="直接进百层塔_91_to_95" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_91_to_95()"/>
+        <br/>
+        直接进百层塔_96_to_100<input type="button" tooltip="直接进百层塔_96_to_100" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CrazyTower_96_to_100()"/>
+        <br/>
+    </div>
+    <div style="float:left;width:250px;">
+        
+        直接进TryEnterYYsDream<input type="button" tooltip="直接进TryEnterYYsDream" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterYYsDream()"/>
+        <br/>
+        直接进YYsDream_S4<input type="button" tooltip="直接进TryEnter_HaqiTown_YYsDream_S4" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_YYsDream_S4()"/>
+        <br/>
+        直接进YYsNightmare<input type="button" tooltip="直接进TryEnter_HaqiTown_YYsNightmare" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_YYsNightmare()"/>
+        <br/>
+        直接进金鬃怪的宝库<input type="button" tooltip="直接进金鬃怪的宝库" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_FlamingPhoenixIsland_GoldenOgreTreasureHouse()"/>
+        <br/>
+        直接进红蘑菇赛场<input type="button" tooltip="直接进红蘑菇赛场" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_RedMushroomArena_1v1()"/>
+        <br/>
+        直接进红蘑菇赛场4v4<input type="button" tooltip="直接进红蘑菇赛场4v4" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_RedMushroomArena_4v4()"/>
+        <br/>
+        直接进红蘑菇赛场AI 1v1<input type="button" tooltip="直接进红蘑菇赛场AI 1v1" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_RedMushroomArena_AI_1v1()"/>
+        <br/>
+        直接进英雄谷<input type="button" tooltip="直接进英雄谷" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_BattleField_ChampionsValley()"/>
+        <br/>
+        直接进英雄谷竞技场<input type="button" tooltip="直接进英雄谷竞技场" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_BattleField_ChampionsValley_Coliseum()"/>
+        <br/>
+        直接进英雄试练之塔<input type="button" tooltip="直接进英雄试练之塔" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnterHaqiTown_LightHouse_Hero()"/>
+        <br/>
+        直接进中阶魔法师考场<input type="button" tooltip="直接进中阶魔法师考场" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_GraduateExam_54_55()"/>
+        <br/>
+        直接进神秘篝火岛<input type="button" tooltip="HaqiTown_CampfireChallenge" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_CampfireChallenge()"/>
+        <br/>
+        直接进灯塔1<input type="button" tooltip="TryEnter_HaqiTown_LightHouse_S1" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_LightHouse_S1()"/>
+        <br/>
+        直接进灯塔2<input type="button" tooltip="TryEnter_HaqiTown_LightHouse_S2" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_LightHouse_S2()"/>
+        <br/>
+        直接进灯塔3<input type="button" tooltip="TryEnter_HaqiTown_LightHouse_S3" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_LightHouse_S3()"/>
+        <br/>
+        直接进灯塔4<input type="button" tooltip="TryEnter_HaqiTown_LightHouse_S4" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_LightHouse_S4()"/>
+        <br/>
+        直接高级公平竞技<input type="button" tooltip="TryEnter_HaqiTown_TrialOfChampions_FairPlay_HighLevel" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_TrialOfChampions_FairPlay_HighLevel()"/>
+        <br/>
+        直接低级公平竞技<input type="button" tooltip="TryEnter_HaqiTown_TrialOfChampions_FairPlay_LowLevel" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_TrialOfChampions_FairPlay_LowLevel()"/>
+        <br/>
+        直接绿洲遗迹<input type="button" tooltip="TryEnter_AncientEgyptIsland_SunkenRelic" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_AncientEgyptIsland_SunkenRelic()"/>
+        <br/>
+    </div>
+    <div style="float:left;width:200px;">
+        
+        直接前线地牢<input type="button" tooltip="TryEnter_DarkForestIsland_DeathDungeon" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_DeathDungeon()"/>
+        <br/>
+        直接黑暗军团粮仓<input type="button" tooltip="TryEnter_DarkForestIsland_LegionGrainDepot" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_LegionGrainDepot()"/>
+        <br/>
+        直接海贼团总部<input type="button" tooltip="TryEnter_DarkForestIsland_PirateNest" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_PirateNest()"/>
+        <br/>
+        直接海贼团霸王号<input type="button" tooltip="TryEnter_DarkForestIsland_PirateSeamaster" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_PirateSeamaster()"/>
+        <br/>
+        直接黑暗岛蜘蛛<input type="button" tooltip="TryEnter_DarkForestIsland_DemonNest_Spider" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_DemonNest_Spider()"/>
+        <br/>
+        直接黑暗岛蝙蝠<input type="button" tooltip="TryEnter_DarkForestIsland_DemonNest_Bat" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_DemonNest_Bat()"/>
+        <br/>
+        直接黑暗岛鳄鱼<input type="button" tooltip="TryEnter_DarkForestIsland_DemonNest_Crocodile" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_DemonNest_Crocodile()"/>
+        <br/>
+        直接黑暗岛狼<input type="button" tooltip="TryEnter_DarkForestIsland_DemonNest_Wolf" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_DemonNest_Wolf()"/>
+        <br/>
+        直接遗忘沙漠<input type="button" tooltip="TryEnter_HaqiTown_HarshDesert" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_HarshDesert()"/>
+        <br/>
+        直接封印之地<input type="button" tooltip="TryEnter_DarkForestIsland_DeathHeadQuarter" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_DarkForestIsland_DeathHeadQuarter()"/>
+        <br/>
+        直接熔岩炼狱<input type="button" tooltip="TryEnter_CloudFortressIsland_MoltenCore" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CloudFortressIsland_MoltenCore()"/>
+        <br/>
+        直接亚龙王巢穴<input type="button" tooltip="TryEnter_CloudFortressIsland_DragonLair" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CloudFortressIsland_DragonLair()"/>
+        <br/>
+        直接前线营寨<input type="button" tooltip="TryEnter_CloudFortressIsland_BearChieftain" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CloudFortressIsland_BearChieftain()"/>
+        <br/>
+        直接冥河峡谷<input type="button" tooltip="TryEnter_CloudFortressIsland_HauntedValley" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CloudFortressIsland_HauntedValley()"/>
+        <br/>
+        直接黑女王飞空艇<input type="button" tooltip="TryEnter_CloudFortressIsland_QueensBattleship" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CloudFortressIsland_QueensBattleship()"/>
+        <br/>
+        直接摄魂魔境<input type="button" tooltip="TryEnter_CloudFortressIsland_FrighteningSoul" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_CloudFortressIsland_FrighteningSoul()"/>
+        <br/>
+        直接HaqiTown_YYsDream_S2_H<input type="button" tooltip="TryEnter_HaqiTown_YYsDream_S2_H" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_YYsDream_S2_H()"/>
+        <br/>
+        直接HaqiTown_Christmas_Colorful_World<input type="button" tooltip="TryEnter_HaqiTown_Christmas_Colorful_World" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_Christmas_Colorful_World()"/>
+
+        
+        
+
+        
+        
+        <br/>
+        直接神殿废墟<input type="button" tooltip="TryEnter_AncientEgyptIsland_LostTemple_DeathLandEntrance" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_AncientEgyptIsland_LostTemple_DeathLandEntrance()"/>
+        <br/>
+        直接娱乐竞技场<input type="button" tooltip="TryEnter_HaqiTown_Practice_PVP_1V1" style="float:right;margin-left:0px;margin-top:0px;width:16px;height:16px;background:texture/3dmapsystem/common/reset.png" onclick="TryEnter_HaqiTown_Practice_PVP_1V1()"/>
+        
+
+        
+        
+        <br/>
+    </div>
+</pe:mcml> 
+</body>
+</html>

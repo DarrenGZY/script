@@ -1,0 +1,50 @@
+﻿<!-- "script/apps/Aries/Debug/CardDescTestPage.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="PublishProcess.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+local type = pageCtrl:GetRequestParam("type") or 1;
+
+function IsFateCard()
+    return if_else(type == 0,true,false);
+end 
+
+function DoTestCardDesc()
+    local desc = pageCtrl:GetValue("desc");
+
+    Map3DSystem.mcml_controls.pe_item.CardDescTest_str = desc;
+
+    if(desc == "nil") then
+        Map3DSystem.mcml_controls.pe_item.CardDescTest_str = nil;
+    end
+
+    pageCtrl:Refresh(0.1);
+    pageCtrl:SetValue("desc", desc);
+end
+]]></script>
+    测试流程: <br/>
+    1 将测试的文字复制到下面的文字栏<br/>
+    2 点击测试 所有卡片的文字将被替换成当前输入的文字<br/>
+    3 可以到真实界面中体验所有卡片更换为这个文字的效果<br/>
+    4 输入nil并点击测试可以恢复到原始状态
+    <div style="width:443px;height:160px;margin-left:4px;margin-top:4px;background:texture/alphadot.png">
+        <textarea style="width:443px;height:160px;" name="desc"  rows="5"/>
+    </div>
+    <pe:if  condition="<%= IsFateCard() %>">
+        <pe:item gsid='17488' style="width:186px;height:256px;margin:20px;"/>
+    </pe:if>
+    <pe:if  condition="<%=not IsFateCard() %>">
+        <pe:item gsid='23101' style="width:151px;height:230px;margin:20px;"/>
+    </pe:if>
+    
+
+    <input type="button" zorder="1" style="width:96px;height:32px;" onclick="DoTestCardDesc()" text="测试" name='Test43342' />
+</pe:mcml> 
+</body>
+</html>

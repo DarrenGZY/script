@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="MonsterHandBook.lua" refresh="true"><![CDATA[
+NPL.load("(gl)script/apps/Aries/Debug/MonsterHandBook.lua");
+local monsterhandbook = commonlib.gettable("MyCompany.Aries.Debug.MonsterHandBook");
+
+local page = document:GetPageCtrl();
+
+local worldname = page:GetRequestParam("worldname");
+
+echo(worldname);
+function DS_Func_Items(index)
+    return monsterhandbook.monsterListTable[worldname][index];
+end
+]]></script>
+    <div style = "width:312px;height:351px;background:url(Texture/Aries/Common/ThemeKid/monsterhandbook/fram_bg.png: 6 6 25 25)">
+        <pe:gridview name="monster_view"  DataSource="<%={{displayname = "111"},{displayname = "222"},{displayname = "333"},}%>" ItemsPerLine="3" AllowPaging="true" pagesize="9">
+			<Columns>
+                <div style="font-size:12px;margin-left:6px;margin-top:3px;width:110px;height:92px;background:url(Texture/Aries/Common/ThemeKid/monsterhandbook/item_lock.png#0 0 92 110);" >
+                    <!--<input type="button" name = "item_icon" background = '<%=Eval("icon")%>' style = "margin-left:15px;margin-top:15px;width:64px;height:64px;" />-->
+                    <label name = "item_name" value = '<%=Eval("displayname")%>' style = "margin-left:0px;margin-top:10px;width:110px;height:14px;font-size:12px;" />
+				</div>
+			</Columns>
+			<EmptyDataTemplate>
+                <b>没有配置怪物</b>
+			</EmptyDataTemplate>
+			<FetchingDataTemplate>
+                <b>请稍等 ... </b>
+			</FetchingDataTemplate>
+			<PagerSettings Position="Bottom" style="margin-left:91px;margin-top:10px;width:136px;height:34px;"/>
+			<PagerTemplate>
+				<form>
+					<input type="button" name="pre" invisibleondisabled="false" zorder=2 animstyle="23" tooltip="上一页" style="margin-left:-10px;margin-top:8px;width:18px;height:21px;background:url(Texture/Aries/Quest/pageleft_32bits1.png#0 0 18 21)"/>
+	                <div style="float:right;margin-left:10px;margin-top:4px;width:60px;">
+	                    <label name="page" style="text-align:center;width:64px;height:18px;margin:4px"/>
+	                </div>
+	                <input type="button" name="next" invisibleondisabled="false" zorder=2 animstyle="23" tooltip="下一页" style="margin-left:10px;margin-top:8px;width:18px;height:21px;background:url(Texture/Aries/Quest/pageright_32bits1.png#0 0 18 21)"/>
+	            </form>
+			</PagerTemplate>
+		</pe:gridview> 
+    </div>
+</pe:mcml> 
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿<!-- "script/apps/Aries/Debug/ReplaceMobTemplateAttrFromCSV.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="PublishProcess.lua" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+function DoGenerate()
+    
+    local search_dir = pageCtrl:GetValue("rootpath");
+
+    local bAnyError = false;
+
+	local files = {};
+	commonlib.SearchFiles(files, search_dir, "*.csv", 1, 100000, true);
+
+    local rules = {};
+    
+	local _, filename;
+	for _, filename in ipairs(files) do
+        local file_path = search_dir..filename;
+        local file = ParaIO.open(file_path, "r");
+        if(file:IsValid() == true) then
+			-- read a line 
+			local line = file:readline();
+			while(line) do
+                local rule_find = nil;
+                local rule_key = nil;
+                local rule_value = nil;
+                local count = 1;
+		        local each_key;
+		        for each_key in string.gmatch(line, "[^,]+") do
+                    if(count == 1) then
+                        rule_key = each_key;
+                    elseif(count == 2) then
+                        rule_value = tonumber(each_key) or each_key;
+                    elseif(count == 3) then
+                        rule_find = each_key;
+                    end
+                    count = count + 1;
+                end
+                if(rule_find and rule_key and rule_value) then
+                    table.insert(rules, {
+                        rule_find = rule_find,
+                        rule_key = rule_key, 
+                        rule_value = rule_value,
+                    });
+                end
+				line = file:readline();
+			end
+			file:close();
+        else
+            log("open file error: "..file_path.."\n");
+            bAnyError = true;
+        end
+    end
+
+	local files = {};
+	commonlib.SearchFiles(files, search_dir, "*.xml", 25, 100000, true);
+
+	local _, filename;
+	for _, filename in ipairs(files) do
+        local file_path = search_dir..filename;
+        local rules_matched = {};
+        local _, rule;
+        for _, rule in pairs(rules) do
+            if(string.find(filename, rule.rule_find)) then
+                rules_matched[rule.rule_key] = rule.rule_value;
+            end
+        end
+
+        local lines = {};
+        local file = ParaIO.open(file_path, "r");
+        if(file:IsValid() == true) then
+			-- read a line 
+            local bMeatMobAttrEnd = false;
+			local line = file:readline();
+			while(line) do
+                if(not bMeatMobAttrEnd) then
+                    local rule_key, rule_value;
+                    for rule_key, rule_value in pairs(rules_matched) do
+                        line = string.gsub(line, rule_key..[[="%d*"]], string.format([[%s="%s"]], rule_key, tostring(rule_value)));
+                    end
+                end
+                table.insert(lines, line);
+
+                if(string.find(line, [[/>]])) then
+                    bMeatMobAttrEnd = true;
+                end
+				line = file:readline();
+			end
+			file:close();
+
+            ParaIO.DeleteFile(file_path);
+            local file = ParaIO.open(file_path, "w");
+            if(file:IsValid() == true) then
+		        local _, writeline;
+		        for _, writeline in ipairs(lines) do
+			        file:WriteString(writeline.."\n");
+		        end
+		        file:close();
+            end
+        else
+            log("open file error: "..file_path.."\n");
+            bAnyError = true;
+        end
+	end
+
+    if(bAnyError) then
+        _guihelper.MessageBox("完成, 有文件出错!")
+    else
+        _guihelper.MessageBox("完成!")
+    end
+
+end
+]]></script>
+    流程: <br/>
+    1 确定一个需要替换的mob路径 config/Aries/Mob/test/  必须以“/”结尾<br/>
+    2 在这个路径下放一批CSV文件标记将要替换的规则  所有CSV的规则行是替换xml文件的集合 CSV按照逻辑来区分<br/>
+    3 每一个CSV文件的一行都是一个规则 由A,B,C,组成<br/>
+    4 A代表替换的key  B代表属性的内容  C代表寻找匹配的xml文件的标识符 大小写敏感<br/>
+    5 mob中必须有事先被替换的基础属性  如果A所指定属性在xml中没有配置 则替换不成功<br/>
+    6 mob匹配以完全匹配为准 后面匹配的会覆盖前面的   最好匹配的C部分彼此之间互斥 C可以唯一确定一个或一组目标文件<br/>
+    7 所有xml文件必须非只读状态<br/>
+    8 整个匹配过程是按行匹配替换 不根据逻辑语义   遇到第一个/>就返回 代表<mob>的属性结束<br/>
+    9 举例: 某CSV规则为hp,2000,Test2, 那么所有该目录下xml文件名中 包含Test2的所有文件中hp="xxx" 都会被替换为hp="2000"<br/>
+    10 可在taurus下运行<br/>
+    <hr/>
+    <br/>
+    替换根路径: <input type="text" zorder="1" style="width:256px;height:24px;" text="config/Aries/Mob/test/" name='rootpath' />必须以“/”结尾
+    <br/>
+    <input type="button" zorder="1" style="width:96px;height:32px;" onclick="DoGenerate()" text="生成" name='Test43342' />
+</pe:mcml> 
+</body>
+</html>

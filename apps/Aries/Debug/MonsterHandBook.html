@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" src="MonsterHandBook.lua" refresh="true"><![CDATA[
+NPL.load("(gl)script/apps/Aries/Debug/MonsterHandBook.lua");
+local monsterhandbook = commonlib.gettable("MyCompany.Aries.Debug.MonsterHandBook");
+
+local page = document:GetPageCtrl();
+
+local worldList = {
+        ["1"] = {name = "哈奇岛",key = "61HaqiTown"},
+        ["2"] = {name = "火鸟岛",key = "FlamingPhoenixIsland"},
+        ["3"] = {name = "寒冰岛",key = "FrostRoarIsland"},
+        ["4"] = {name = "沙漠岛",key = "AncientEgyptIsland"},
+    };
+function GetCurrentWorldCollectedOdds(value) 
+    local s;
+    if(value) then
+        local curWorld = worldList[value];
+        s = curWorld.."收集率";
+        
+        -- 收集率
+        -- local totalCount = 
+        local curCount = 0;
+    end
+end
+
+function ClosePage()
+    page:CloseWindow();
+end
+]]></script>
+    <div style = "width:786px;height:491px;margin:5px;background:url(Texture/Aries/Common/ThemeKid/monsterhandbook/handbook_bg.png#0 0 784 488:);">
+        <div style = "height:20px;" width = "100%">
+            <div style = "float:left;margin-left:20px;width:150px;" >
+                <input name = "curodds" type="button" style = "margin-top:-30px;margin-left:5px;width:100px;" />
+                <pe:progressbar Minimum = "0" Maximum = "100" value = "50" />
+            </div>
+            <div style = "float:left;margin-left:40px;width:150px;" >
+            </div>
+            <div style = "float:left;margin-left:40px;width:150px;" >
+                <input name = "totalodds" type="button" style = "margin-top:-30px;margin-left:5px;width:100px;" />
+                <pe:progressbar background = "Texture/Aries/Loader/progressbar_bg_32bits.png;0 0 215 9" 
+                    blockimage = "Texture/Aries/Loader/progressbar_overlay_32bits.png;0 0 215 9" 
+                    block_bg_autosize = "true" style="margin:6px;width:215px;height:9px;" Minimum = "0" Maximum = "100" Value = "50" />
+            </div>
+            <input style = "float:left;margin-left:2px;width:40px;" type = "button" onclick = "ClosePage" class="closewindow"/>
+        </div>
+        <div style = "margin-left:1px;margin-top:33px;">
+            <div style = "float:left;margin-left:63px;margin-top:1px;width:350px;height:300px;">
+                <iframe src = "script/apps/Aries/Debug/MonsterList.html?worldname=61HaqiTown" />
+            </div>
+            <div style = "float:left;margin-left:10px;width:20px;height:300px;">
+                <!--<iframe src = "script/apps/Aries/Debug/MonsterDetail.html?gsid=10136" />-->
+
+            </div>
+            <div style = "float:left;margin-left:10px;width:30px;height:300px;">
+                <pe:tabs style = "width:355px;height:264px;" TabPosition = "right">
+                    <pe:tab-item name = "61HaqiTown" text = "哈奇岛" icon = "Texture/Aries/Common/ThemeKid/monsterhandbook/61HaqiTown.png" selected = "true">
+                    </pe:tab-item>
+                    <pe:tab-item name = "FlamingPhoenixIsland" icon = "Texture/Aries/Common/ThemeKid/monsterhandbook/FlamingPhoenixIsland.png" text = "火鸟岛">
+                    </pe:tab-item>
+                    <pe:tab-item name = "FrostRoarIsland" icon = "Texture/Aries/Common/ThemeKid/monsterhandbook/61HaqiTown.png" text = "寒冰岛">
+                    </pe:tab-item>
+                    <pe:tab-item name = "AncientEgyptIsland" icon = "Texture/Aries/Common/ThemeKid/monsterhandbook/AncientEgyptIsland.png" text = "沙漠岛">
+                    </pe:tab-item>
+                </pe:tabs>
+            </div>
+        </div>
+    </div>
+</pe:mcml> 
+</body>
+</html>

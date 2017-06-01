@@ -1,0 +1,131 @@
+﻿<!-- "script/apps/Aries/Debug/MobWikiPage.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>MobWiki, by WD, 2011/07/05</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl"><![CDATA[
+NPL.load("(gl)script/apps/Aries/Debug/MobWikiPage.lua")
+local mobview = commonlib.gettable("MyCompany.Aries.App.MobWikiPage");
+mobview:Init();
+
+MobDataSet = function() return mobview.MobDataSet; end
+
+ExportToCSV = function()
+    mobview:Export2CSV();
+end
+
+MobLoot = function() 
+    return  mobview.MobLoot;
+end
+
+exit = function() mobview:Close(); end
+
+function MobSelection(index)
+    if(index == nil) then 
+        return;
+    end
+
+    local item = mobview.MobDataSet[index];
+    mobview.MobLoot = GetLootFromMob(item.mobName);
+    mobview.page:CallMethod("pegvwMobLoot", "SetDataSource", MobLoot());
+    mobview.page:CallMethod("pegvwMobLoot", "DataBind");
+
+end
+
+function GetLootFromMob(name)
+    local i,mob;
+    for i,mob in ipairs(mobview.MobDataTable) do
+        if(mob.profile.mobName == name) then
+            return mob.profile.loot.loot1
+        end
+    end
+end
+]]></script>
+
+<div style="width:600px;height:470px;" class="pane">
+
+    <input type="button" style="margin-left:552px; margin-top:2px;" class="closebutton" name="btnCloseForm" onclick="exit" />
+
+    <div style="margin-left:5px;margin-top:3px;width:590px;height:410px;" class="border">
+      <pe:tabs name="tabscontrol" style="margin-left:5px;">
+          <pe:tab-item text="怪物大全" selected="true">
+            <div style="float:left;">
+                <div id="divLeft" class="inborder" style="float:inherit;width:200px;height:375px;padding:10px;">
+                    <pe:gridview name="pegvwMods" CellPadding="1"  style="margin-left:1px;margin-right:3px;"
+                        DataSource='<%=MobDataSet() %>' 
+                        DefaultNodeHeight="2" >
+                        <Columns name="colum1">
+                            <input type="button" value='<%=Eval("mobName") %>' name='<%=Eval("index") %>' onclick="MobSelection"/>
+                        </Columns>
+
+                    <EmptyDataTemplate>
+                        <b style="text-align:center; color:#888888">No data to display.</b>
+                    </EmptyDataTemplate>
+                    <FetchingDataTemplate>
+                        <b>Loading... </b>
+                    </FetchingDataTemplate>
+                    </pe:gridview>
+                </div>
+
+                <div id="divRight" class="inborder" style="float:inherit;width:375px;height:375px; margin-left:5px;padding:10px;">
+<!--                    <div style="width:inherit;height:150px">
+                    <pe:gridview name="pegvwMobProfile" CellPadding="1"  style="margin-left:1px;margin-right:3px;"
+                        DataSource="{}"
+                        DefaultNodeHeight="2" >
+                        <Columns>
+                        </Columns>
+
+                    <EmptyDataTemplate>
+                        <b style="text-align:center; color:#888888">No data to display.</b>
+                    </EmptyDataTemplate>
+                    <FetchingDataTemplate>
+                        <b>Loading... </b>
+                    </FetchingDataTemplate>
+                   
+                    </pe:gridview>
+                    </div>
+                    <hr/>  --> 
+
+                    <div style="width:inherit;height:inherit">
+                        <pe:gridview name="pegvwMobLoot" CellPadding="1"  style="margin-left:1px;margin-right:3px;"
+                        DataSource='<%=MobLoot() %>'
+                        DefaultNodeHeight="2" >
+                        <Columns name="colum2">
+                            <div style="width:350px;background:url(Texture/Aries/Friends/buddy_tag_bg_32bits.png#0 0 32 30:16 15 15 14)">
+                            <b style="text-align:center">掉落物品：</b>
+                            <pe:item gsid='<%=Eval("gsid")%>' style="width:64px;height:64px" />
+                            </div>
+                            <div style="width:350px;background:url(Texture/Aries/Friends/buddy_tag_bg_32bits.png#0 0 32 30:16 15 15 14)">
+                            <b style="text-align:center">物品掉落数量：</b>
+                            <%=Eval("count") %>
+                            </div>
+                            <div style="width:350px;background:url(Texture/Aries/Friends/buddy_tag_bg_32bits.png#0 0 32 30:16 15 15 14)">
+                            <b style="text-align:center">物品掉落概率：</b>
+                            <%=Eval("rate") %>
+                            </div>
+                        </Columns>
+
+                    <EmptyDataTemplate>
+                        <b style="text-align:center; color:#888888">No data to display.</b>
+                    </EmptyDataTemplate>
+                    <FetchingDataTemplate>
+                        <b>Loading... </b>
+                    </FetchingDataTemplate>
+                   
+                    </pe:gridview>
+                    </div>
+                </div>
+            </div>
+          </pe:tab-item>
+        </pe:tabs>
+    </div>   
+
+    <input type="button" style="margin-left:280px; margin-top:3px;" class="highlightbutton" value="导出到CSV" name="btnExportToCSV" onclick="ExportToCSV" />
+</div>    
+</pe:mcml> 
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿<!-- "script/apps/Aries/Debug/CreateSpellFileWithOffsetStarttimePage.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2012/11/30</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+function OnClickGenerate(name, values)
+    
+    local spell_name = values.spell_name;
+    local offset = values.offset;
+
+    if(spell_name and spell_name ~= "" and offset and tonumber(offset)) then
+        local file_path = "config/Aries/Spells/"..spell_name..".xml";
+        offset = tonumber(offset);
+    
+        local lines = {};
+        local file = ParaIO.open(file_path, "r");
+        if(file:IsValid() == true) then
+		    -- read a line 
+		    local line = file:readline();
+		    while(line) do
+            
+                local original_start_time = string.match(line, [[starttime="(%d+)"]]);
+                if(original_start_time) then
+                    original_start_time = tonumber(original_start_time);
+                    line = string.gsub(line, string.format([[starttime="%s"]], tostring(original_start_time)), string.format([[starttime="%s"]], tostring(original_start_time + offset)))
+                end
+
+                table.insert(lines, line);
+
+			    line = file:readline();
+		    end
+		    file:close();
+
+            ParaIO.DeleteFile(file_path..".withoffset");
+            local file = ParaIO.open(file_path..".withoffset", "w");
+            if(file:IsValid() == true) then
+		        local _, writeline;
+		        for _, writeline in ipairs(lines) do
+			        file:WriteString(writeline.."\n");
+		        end
+		        file:close();
+                pageCtrl:SetUIValue("result", "文件生成在:"..file_path..".withoffset")
+            end
+        else
+            log("open file error: "..file_path.."\n");
+            pageCtrl:SetUIValue("result", "读取文件失败:"..file_path)
+        end
+    end
+end
+
+
+]]></script>
+    
+<div style="margin:20px;">
+
+    <form>
+        <div style="float:left;margin-top:20px;">更新带有偏移量的starttime</div><br/>
+        <div style="float:left;margin-top:0px;">例如spell文件中原始startime="10"</div><br/>
+        <div style="float:left;margin-top:0px;">offset为1000时,生成的withoffset文件中的startime="1010"</div><br/>
+        <div style="float:left;margin-top:0px;margin-bottom:10px;">本工具会将替换后的文件放在config/Aries/Spells</div><br/>
+        
+        <div style="width:80px;float:left;text-align:right">Spell文件名:</div>
+            <!--<input type="text" name="postfix_filter" style="width:200px;" value="_091211"/><br/>-->
+            <input type="text" name="spell_name" style="width:200px;" value="Storm_StormGlobalAura2_teen"/><br/>
+        <div style="width:80px;float:left;text-align:right">starttime偏移量:</div>
+            <input type="text" name="offset" style="width:100px;" value="1000"/><br/>
+        <br/>
+        <input type="submit" name="next" value="生成starttime位移后的spell文件" onclick="OnClickGenerate"/>
+        <label name="result" style="height:100px;margin-top:3px;margin-left:10px;color:#006600;font-weight:bold"/>
+    </form>
+
+</div>
+</pe:mcml> 
+</body>
+</html>

@@ -1,0 +1,308 @@
+﻿<!-- "script/apps/Aries/Debug/EnterCombatProtocolTestPage.html" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ItemView, by Andy, 2009/4/24</title>
+</head>
+<body>
+<pe:mcml>
+<script type="text/npl" refresh="true"><![CDATA[
+local pageCtrl = document:GetPageCtrl();
+
+
+--ShallIEnterCombat:1036,near,54,5538,5538,fire,24004,1301,0,1,0,nil[Life_HealBlade_VIP,3+Fire_FireGreatShield,3+Storm_AreaAttackWithStun_Level7,1+Storm_AreaAttack_LevelX,1+Death_AreaAttack_DoomLordsWrath,1+][Storm_Rune_AreaAttack_Level2+Ice_Rune_IceResist_MiniAura+Fire_Rune_FireResist_MiniAura+Fire_Rune_AreaAttack_Level2+][Storm_Pet_StormDamageTrap_Alexander,3+][24004,1903,1755,1742,1277,1735,1728,1721,][26056,26081,26081,26081,]
+
+local MsgHandler = commonlib.gettable("MyCompany.Aries.Combat.MsgHandler");
+local Combat = commonlib.gettable("MyCompany.Aries.Combat");
+local Pet = commonlib.gettable("MyCompany.Aries.Pet");
+local ItemManager = commonlib.gettable("System.Item.ItemManager");
+local MyCardsManager = commonlib.gettable("MyCompany.Aries.Inventory.Cards.MyCardsManager");
+
+
+-- get all cards
+-- @param deck_struct: deck cards
+-- @param equip_cards: equip cards
+local function get_deck_cards_str()
+
+	local deck_struct = MyCardsManager.GetLocalCombatBag();
+	local rune_struct = MyCardsManager.GetLocalRuneBag();
+	local equip_cards = Combat.GetEquipCards() or {};
+	local pet_cards = Combat.GetPetCards() or {};
+
+	if(not deck_struct or not equip_cards or not pet_cards) then
+		LOG.std("", "error","combat","get_deck_cards_str got invalid input: "..commonlib.serialize({deck_struct, equip_cards, pet_cards}));
+		return;
+	end
+	local cards_str = "";
+	local deck_struct_internal = {};
+	local _, pair;
+	for _, pair in pairs(deck_struct) do
+		local gsid = pair.gsid;
+		if(gsid > 0) then
+			if(gsid >= 22319 and gsid <= 22323) then
+				-- hot fix: skip the 5 areaattack rune cards
+			else
+				deck_struct_internal[gsid] = (deck_struct_internal[gsid] or 0) + 1;
+			end
+		end
+	end
+	local gsid, count;
+	for gsid, count in pairs(deck_struct_internal) do
+		local key = Combat.Get_cardkey_from_gsid(gsid);
+		if(key) then
+			cards_str = cards_str..key..","..count.."+";
+		end
+	end
+	local runes_str = "";
+	local _, pair;
+	for _, pair in pairs(rune_struct) do
+		if(pair.gsid > 0) then
+			local key = Combat.Get_rune_cardkey_from_gsid(pair.gsid);
+			if(key) then
+				runes_str = runes_str..key.."+";
+			end
+		end
+	end
+	local equip_cards_str = "";
+	local gsid, count;
+	for gsid, count in pairs(equip_cards) do
+		local key = Combat.Get_cardkey_from_gsid(gsid);
+		if(key) then
+			equip_cards_str = equip_cards_str..key..","..count.."+";
+		end
+	end
+	local petcards_str = "";
+	local gsid, count;
+	for gsid, count in pairs(pet_cards) do
+		local key = Combat.Get_cardkey_from_gsid(gsid);
+		if(key) then
+			petcards_str = petcards_str..key..","..count.."+";
+		end
+	end
+	return cards_str, equip_cards_str, runes_str, petcards_str;
+	--"Fire_SingleAttack_Level1"
+	--"Fire_SingleAttackWithDOT_Level2"
+	--"Fire_SingleAttack_Level3"
+	--return "Fire_SingleAttack_Level1,3+Fire_SingleAttackWithDOT_Level2,4+Fire_SingleAttack_Level3,2+Fire_SingleAttack_Level3,1+";
+end
+
+
+-- get equiped armor gsid
+-- NOTE: we only return the combat related items
+local function get_equiped_armor_gsids_str()
+	local gsids;
+	if(System.options.version == "teen") then
+		gsids = Combat.GetEquipArmorGSIDs_with_durability();
+	else
+		gsids = Combat.GetEquipArmorGSIDs();
+	end
+	local gsids_str = "";
+	local _, gsid;
+	for _, gsid in pairs(gsids) do
+		gsids_str = gsids_str..gsid..","
+	end
+	return gsids_str;
+	-- 1231_FireHat1
+	-- 1241_FireSuit1
+	-- 1251_FireBoot1
+	-- 1261_FireBack1
+	-- 1267_FireWand_5
+	--return "1231,1241,1251,1261,1267,";
+end
+
+-- get equiped armor gem gsid
+-- NOTE: we only return the combat related items
+local function get_equiped_armor_gem_gsids_str()
+	local gsids;
+	if(System.options.version == "teen") then
+		gsids = Combat.GetEquipArmorGemGSIDs_with_durability();
+	else
+		gsids = Combat.GetEquipArmorGemGSIDs();
+	end
+	local gsids_str = "";
+	local _, gsid;
+	for _, gsid in pairs(gsids) do
+		gsids_str = gsids_str..gsid..","
+	end
+	return gsids_str;
+end
+
+	-- TODO: get my health point
+	local phase = Combat.GetSchool();
+	local petCombatLevel = 1;
+	-- get pet level
+	local bean = Pet.GetBean();
+	if(bean) then
+		petCombatLevel = bean.combatlel or 0;
+	end
+
+	local msghandler_getcurrenthp = MsgHandler.GetCurrentHP();
+	if(not msghandler_getcurrenthp or msghandler_getcurrenthp <= 0) then
+		LOG.std("", "warning", "combat", "warning: try enter combat with invalid current hp: %s", tostring(msghandler_getcurrenthp));
+		MsgHandler.HealByWisp(1);
+	end
+	
+	-- my follow pet
+	-- position 32: follow pet position
+	local myfollowpet_guid = 0;
+	local item = ItemManager.GetItemByBagAndPosition(0, 32);
+	if(item and item.guid ~= 0) then
+		myfollowpet_guid = item.guid;
+		MsgHandler.last_entercombat_pet_guid = myfollowpet_guid;
+	end
+
+	-- force update max hp
+	MsgHandler.UpdateMaxHP();
+
+	local my_itemset_id = Combat.GetCurrentItemSetID() or 0;
+
+	local deck_str, equip_cards_str, rune_str, petcards_str = get_deck_cards_str();
+    
+
+local function get_dragon_totem_str()
+	local dragon_totem_str = "";
+	--52 巨龙之“牙”、“爪”，“鳞”，“心”标记 儿童版第一次使用  
+	--53 巨龙图腾经验值标记 儿童版第一次使用 
+	local item_profession = ItemManager.GetItemByBagAndPosition(0, 52);
+	local item_exp = ItemManager.GetItemByBagAndPosition(0, 53);
+	if(item_profession and item_profession.guid ~= 0 and item_exp and item_exp.guid ~= 0) then
+		dragon_totem_str = format("%d,%d,%d", item_profession.gsid, item_exp.gsid, item_exp.copies);
+	elseif(item_profession and item_profession.guid ~= 0) then
+        commonlib.echo(item_profession.gsid)
+		if(System.options.version == "kids" and item_profession.gsid and item_profession.gsid >= 50351 and item_profession.gsid <= 50354) then
+			dragon_totem_str = format("%d,%d,%d", item_profession.gsid, 50359, 0);
+		elseif(System.options.version == "teen" and item_profession.gsid and item_profession.gsid >= 50377 and item_profession.gsid <= 50385) then
+			dragon_totem_str = format("%d,%d,%d", item_profession.gsid, 50389, 0);
+		end
+	end
+	return dragon_totem_str;
+end
+
+local dragon_totem_str = get_dragon_totem_str();
+
+	
+function OnClickEnterCombat()
+    local x, y, z = ParaScene.GetPlayer():GetPosition();
+    local dist_min = 9999999999;
+    local dist_min_arena_id = nil;
+    local arena_data_map = MsgHandler.Get_arena_data_map();
+	local arena_id, data;
+	for arena_id, data in pairs(arena_data_map) do
+        local sq = (data.p_x - x) * (data.p_x - x) + (data.p_z - z) * (data.p_z - z);
+        if(sq < dist_min) then
+            dist_min = sq;
+            dist_min_arena_id = arena_id;
+        end
+    end
+
+    if(dist_min_arena_id) then
+        local msg = format("%d,%s,%s,%s,%s,%s,%s,%s,%d,%f,%d,%s,%s[%s][%s][%s][%s][%s][%s][%s]", 
+	        dist_min_arena_id, pageCtrl:GetValue("side"), pageCtrl:GetValue("petCombatLevel"), 
+	        pageCtrl:GetValue("current_hp"), pageCtrl:GetValue("max_hp"), 
+	        pageCtrl:GetValue("phase"),
+	        pageCtrl:GetValue("get_equiped_deck_gsid"),
+	        pageCtrl:GetValue("myfollowpet_guid"),
+	        pageCtrl:GetValue("my_itemset_id"),
+	        1, 
+	        0, 
+	        tostring(false),
+	        tostring(false),
+	        pageCtrl:GetValue("dragon_totem_str"), 
+	        pageCtrl:GetValue("deck_str"), 
+	        pageCtrl:GetValue("equip_cards_str"), 
+	        pageCtrl:GetValue("rune_str"), 
+	        pageCtrl:GetValue("petcards_str"), 
+	        pageCtrl:GetValue("get_equiped_armor_gsids_str"),
+	        pageCtrl:GetValue("get_equiped_armor_gem_gsids_str"));
+        MsgHandler.SendMessageToServer("ShallIEnterCombat:"..msg);  
+    end  
+end
+
+function OnClickUnlockArena()
+    local x, y, z = ParaScene.GetPlayer():GetPosition();
+    local dist_min = 9999999999;
+    local dist_min_arena_id = nil;
+    local arena_data_map = MsgHandler.Get_arena_data_map();
+	local arena_id, data;
+	for arena_id, data in pairs(arena_data_map) do
+        local sq = (data.p_x - x) * (data.p_x - x) + (data.p_z - z) * (data.p_z - z);
+        if(sq < dist_min) then
+            dist_min = sq;
+            dist_min_arena_id = arena_id;
+        end
+    end
+
+    if(dist_min_arena_id) then
+        MsgHandler.SendMessageToServer("UnlockArena:"..dist_min_arena_id);  
+    end  
+end
+
+
+-- get equiped deck gsid, 0 if invalid
+local function get_equiped_deck_gsid()
+	return Combat.GetEquipDeckGSID() or 0;
+	--return 24004; --24004_CombatDeck_Level15_fire
+end
+
+pageCtrl:SetValue("side", "near")
+
+pageCtrl:SetValue("petCombatLevel", petCombatLevel)
+pageCtrl:SetValue("current_hp", MsgHandler.GetCurrentHP())
+pageCtrl:SetValue("max_hp", MsgHandler.GetMaxHP())
+
+pageCtrl:SetValue("phase", phase)
+
+pageCtrl:SetValue("get_equiped_deck_gsid", tostring(get_equiped_deck_gsid()))
+
+pageCtrl:SetValue("myfollowpet_guid", myfollowpet_guid)
+pageCtrl:SetValue("my_itemset_id", my_itemset_id)
+
+pageCtrl:SetValue("deck_str", deck_str)
+pageCtrl:SetValue("equip_cards_str", equip_cards_str)
+pageCtrl:SetValue("dragon_totem_str", dragon_totem_str)
+pageCtrl:SetValue("rune_str", rune_str)
+pageCtrl:SetValue("petcards_str", petcards_str)
+
+pageCtrl:SetValue("get_equiped_armor_gsids_str", get_equiped_armor_gsids_str())
+pageCtrl:SetValue("get_equiped_armor_gem_gsids_str", get_equiped_armor_gem_gsids_str())
+
+
+]]></script>
+    
+<div style="margin:20px;">
+
+    以下测试目标是加入到最近的一个战斗法阵
+    <br/>
+    <hr/>
+    近端法阵还是远端near/far<input type="text" name="side" style="width:100px;" value="near"/>
+    等级<input type="text" name="petCombatLevel" style="width:100px;" value="1"/><br/>
+    当前血<input type="text" name="current_hp" style="width:100px;" value="100"/>
+    最大血<input type="text" name="max_hp" style="width:100px;" value="100"/>
+    系别<input type="text" name="phase" style="width:100px;" value="100"/><br/>
+    卡包gsid<input type="text" name="get_equiped_deck_gsid" style="width:100px;" value="100"/>
+    跟随宠物的guid<input type="text" name="myfollowpet_guid" style="width:100px;" value="100"/>
+    套装属性id<input type="text" name="my_itemset_id" style="width:100px;" value="100"/><br/>
+    龙图腾配置<input type="text" name="dragon_totem_str" style="width:600px;height:22px;" value="100"/><br/>
+    卡包配置<input type="text" name="deck_str" style="width:600px;height:22px;" value="100"/><br/>
+    装备卡配置<input type="text" name="equip_cards_str" style="width:600px;height:22px;" value="100"/><br/>
+    符文配置<input type="text" name="rune_str" style="width:600px;height:22px;" value="100"/><br/>
+    宠物卡配置<input type="text" name="petcards_str" style="width:600px;height:22px;" value="100"/><br/>
+    身上的装备<input type="text" name="get_equiped_armor_gsids_str" style="width:600px;height:22px;" value="100"/><br/>
+    宝石配置<input type="text" name="get_equiped_armor_gem_gsids_str" style="width:600px;height:22px;" value="100"/><br/>
+    <hr/>
+    <div style="width:200px;height:20px;"/>
+    <br/>
+
+    <input type="submit" name="next" value="加入法阵" onclick="OnClickEnterCombat"/>
+
+    <input type="button" name="next" value="激活法阵" onclick="OnClickUnlockArena"/>
+    
+
+    <br/>
+    <hr/>
+
+</div>
+</pe:mcml> 
+</body>
+</html>
